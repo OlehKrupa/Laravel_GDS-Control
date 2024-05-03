@@ -1,0 +1,2 @@
+# gds-control
+ Bachelor diploma
