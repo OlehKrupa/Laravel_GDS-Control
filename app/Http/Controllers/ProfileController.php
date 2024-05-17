@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Station;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $stations = Station::all();
+        $userStationId = $request->user()->station_id; // Получаем station_id пользователя
+        $userStation = $stations->firstWhere('id', $userStationId); // Находим станцию пользователя
+
         return view('profile.edit', [
             'user' => $request->user(),
-        ]);
+            'userStation' => $userStation, // Передаем станцию пользователя в представление
+        ], compact('stations'));
     }
 
     /**

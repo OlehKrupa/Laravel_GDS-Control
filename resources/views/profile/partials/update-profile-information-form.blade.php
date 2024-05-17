@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Update your account's profile information.") }}
         </p>
     </header>
 
@@ -17,10 +17,39 @@
         @csrf
         @method('patch')
 
+        <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <!-- Surname -->
+        <div>
+            <x-input-label for="surname" :value="__('Surname')" />
+            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname', $user->surname)" required autofocus autocomplete="surname" />
+            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
+        </div>
+
+        <!-- Patronymic -->
+        <div>
+            <x-input-label for="patronymic" :value="__('Patronymic')" />
+            <x-text-input id="patronymic" class="block mt-1 w-full" type="text" name="patronymic" :value="old('patronymic', $user->patronymic)" required autofocus autocomplete="patronymic" />
+            <x-input-error :messages="$errors->get('patronymic')" class="mt-2" />
+        </div>
+
+        <!-- Station -->
+        <div>
+            <x-input-label for="station_id" :value="__('Station')" />
+            <select id="station_id" name="station_id" class="block mt-1 w-full" required>
+
+                <option value="{{ $userStation->id }}">{{ $userStation->label }}, {{ $userStation->city }}</option>
+
+                @foreach($stations as $station)
+                    <option value="{{ $station->id }}">{{ $station->label }}, {{ $station->city }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('station_id')" class="mt-2" />
         </div>
 
         <div>
