@@ -15,7 +15,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('role_id')->constrained('role');
             $table->primary(['user_id', 'role_id']);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

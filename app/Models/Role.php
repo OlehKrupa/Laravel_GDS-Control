@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
-    use SoftDeletes;
+    protected $table = 'role';
 
     /**
      * The attributes that are mass assignable.
