@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Role;
 use App\Models\Station;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,14 +19,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $roles = Role::all();
         $stations = Station::all();
         $userStationId = $request->user()->station_id; // Получаем station_id пользователя
         $userStation = $stations->firstWhere('id', $userStationId); // Находим станцию пользователя
 
         return view('profile.edit', [
             'user' => $request->user(),
+            'userRoles' => $request->user()->roles, // Передаем роли пользователя в представление
             'userStation' => $userStation, // Передаем станцию пользователя в представление
-        ], compact('stations'));
+            'isAdmin' => $request->user()->hasRole('admin'), // Передаем информацию, является ли пользователь администратором
+        ], compact('stations', 'roles'));
     }
 
     /**
@@ -32,13 +37,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        $roles = $request->input('roles', []); // Получаем выбранные роли из запроса
+        $user->roles()->sync($roles); // Назначаем выбранные роли пользователю
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
