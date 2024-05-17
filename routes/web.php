@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileController
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\StationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,8 @@ Route::get('/journal', function () {
 Route::get('/reports', function () {
     return view('reports');
 })->middleware(['auth', 'verified'])->name('reports');
+
+Route::resource('stations', StationController::class)->middleware(['auth', 'verified']);
 
 Route::get('settings', [SettingsController::class, 'index'])->middleware(['auth', 'verified'])->name('settings.index');
 Route::put('settings/{setting}', [SettingsController::class, 'update'])->middleware(['auth', 'verified'])->name('settings.update');
