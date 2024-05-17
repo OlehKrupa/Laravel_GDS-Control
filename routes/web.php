@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,10 @@ Route::get('/journal', function () {
 Route::get('/reports', function () {
     return view('reports');
 })->middleware(['auth', 'verified'])->name('reports');
+
+Route::get('settings', [SettingsController::class, 'index'])->middleware(['auth', 'verified'])->name('settings.index');
+Route::put('settings/{setting}', [SettingsController::class, 'update'])->middleware(['auth', 'verified'])->name('settings.update');
+Route::delete('settings/{setting}', [SettingsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('settings.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
