@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,32 +17,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Welcome route
+Route::view('/', 'welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Dashboard and other authenticated user routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::view('/journal', 'journal')->name('journal');
+    Route::view('/reports', 'reports')->name('reports');
 
-Route::get('/journal', function () {
-    return view('journal');
-})->middleware(['auth', 'verified'])->name('journal');
+    Route::resource('stations', StationController::class);
 
-Route::get('/reports', function () {
-    return view('reports');
-})->middleware(['auth', 'verified'])->name('reports');
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('settings/{setting}', [SettingsController::class, 'update'])->name('settings.update');
+    Route::delete('settings/{setting}', [SettingsController::class, 'destroy'])->name('settings.destroy');
 
-Route::resource('stations', StationController::class)->middleware(['auth', 'verified']);
-
-Route::get('settings', [SettingsController::class, 'index'])->middleware(['auth', 'verified'])->name('settings.index');
-Route::put('settings/{setting}', [SettingsController::class, 'update'])->middleware(['auth', 'verified'])->name('settings.update');
-Route::delete('settings/{setting}', [SettingsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('settings.destroy');
-
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/reports/generate', [ReportController::class, 'generate'])->name('reports.generate');
 });
 
 require __DIR__.'/auth.php';

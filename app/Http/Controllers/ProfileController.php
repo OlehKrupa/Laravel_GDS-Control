@@ -19,16 +19,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $roles = Role::all();
+        $user = $request->user();
         $stations = Station::all();
-        $userStationId = $request->user()->station_id; // Получаем station_id пользователя
-        $userStation = $stations->firstWhere('id', $userStationId); // Находим станцию пользователя
+        $roles = Role::all();
+        $userStation = $stations->firstWhere('id', $user->station_id);
 
         return view('profile.edit', [
-            'user' => $request->user(),
-            'userRoles' => $request->user()->roles, // Передаем роли пользователя в представление
-            'userStation' => $userStation, // Передаем станцию пользователя в представление
-            'isAdmin' => $request->user()->hasRole('admin'), // Передаем информацию, является ли пользователь администратором
+            'user' => $user,
+            'userRoles' => $user->roles,
+            'userStation' => $userStation,
+            'isAdmin' => $user->hasRole('admin'),
         ], compact('stations', 'roles'));
     }
 
