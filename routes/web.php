@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StationController;
 use Illuminate\Support\Facades\Route;
