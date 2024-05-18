@@ -176,3 +176,4 @@ fabric.properties
 /build/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpunit,laravel,phpstorm,composer,git
+/public/build/
