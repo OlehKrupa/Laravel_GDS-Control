@@ -10,6 +10,8 @@ class Journal extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'journal';
+
     protected $fillable = [
         'pressure_in',
         'pressure_out_1',

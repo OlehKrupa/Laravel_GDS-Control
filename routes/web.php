@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StationController;
@@ -54,6 +55,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('{gassiness}', [GassinessController::class, 'update'])->name('update');
         Route::delete('{gassiness}', [GassinessController::class, 'destroy'])->name('destroy');
     });
+
+    //Journal router
+    Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
+    Route::get('/journals/create', [JournalController::class, 'create'])->name('journals.create');
+    Route::post('/journals', [JournalController::class, 'store'])->name('journals.store');
+    Route::get('/journals/{journal}/edit', [JournalController::class, 'edit'])->name('journals.edit');
+    Route::put('/journals/{journal}', [JournalController::class, 'update'])->name('journals.update');
+    Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journals.destroy');
 
     // Reports routes
     Route::prefix('reports')->name('reports.')->group(function () {

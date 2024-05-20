@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('journal')" :active="request()->routeIs('journal')">
+                    <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index')">
                         {{ __('Journal') }}
                     </x-nav-link>
                 </div>
@@ -46,6 +46,7 @@
                         {{ __('Gassiness') }}
                     </x-nav-link>
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
