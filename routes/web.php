@@ -1,22 +1,13 @@
 <?php
 
+use App\Http\Controllers\JournalController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GassinessController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 // Welcome route
 Route::view('/', 'welcome');
@@ -55,6 +46,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('{gassiness}', [GassinessController::class, 'destroy'])->name('destroy');
     });
 
+    Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
+    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+
+    // Journal routes
+    Route::resource('journals', JournalController::class);
+
     // Reports routes
     Route::prefix('reports')->name('reports.')->group(function () {
         Route::post('/generate', [ReportController::class, 'generate'])->name('generate');
@@ -62,3 +63,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

@@ -13,7 +13,7 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['label' => 'Label', 'city' => 'City', 'region' => 'Region', 'type' => 'Type'];
+                                $columns = ['label' => __('Label'), 'city' => __('City'), 'region' => __('Region'), 'type' => __('Type')];
                                 $currentSort = request('sort', 'label');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
@@ -32,7 +32,7 @@
                                 </th>
                             @endforeach
                             <th scope="col" class="px-2 py-2 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 150px;">
-                                Actions
+                                {{ __('Actions') }}
                             </th>
                         </tr>
                         </thead>
@@ -46,13 +46,13 @@
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
                                         <a href="{{ route('stations.edit', $station->id) }}" class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            Edit
+                                            {{ __('Edit') }}
                                         </a>
                                         <form action="{{ route('stations.destroy', $station->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                Delete
+                                                {{ __('Delete') }}
                                             </button>
                                         </form>
                                     </div>
@@ -67,13 +67,13 @@
 
                     <div class="mb-4">
                         <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            Add Station
+                            {{ __('Add Station') }}
                         </a>
                         <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            Quick report 1
+                            {{ __('Quick report') }}
                         </a>
                         <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
-                            Quick report 2
+                            {{ __('Quick report') }}
                         </a>
                     </div>
 

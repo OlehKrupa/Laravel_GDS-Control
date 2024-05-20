@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Settings') }}
+            {{ __('settings') }}
         </h2>
     </x-slot>
 
@@ -31,12 +31,12 @@
                                     @csrf
                                     @method('PUT')
                                     <input type="text" name="value" id="value_{{ $setting->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $setting->value }}">
-                                    <button type="submit" class="ml-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700">Update</button>
+                                    <button type="submit" class="ml-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700">{{ __('Update') }}</button>
                                 </form>
                                 <form id="delete-{{ $setting->id }}" method="POST" action="{{ route('settings.destroy', $setting->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onclick="return confirm('Are you sure you want to delete this setting?')">Delete</button>
+                                    <button type="submit" class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onclick="return confirm('{{ __('Are you sure you want to delete this setting?') }}')">{{ __('Delete') }}</button>
                                 </form>
                             </div>
                         @endforeach
