@@ -10,6 +10,8 @@ class Gassiness extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'gassiness';
+
     protected $fillable = [
         'MPR',
         'measurements',
