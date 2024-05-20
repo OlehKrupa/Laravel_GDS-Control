@@ -24,49 +24,70 @@
                         </div>
                     @endif
 
+                    <table class="min-w-full divide-y divide-gray-200 border border-gray-200">
+                        <thead>
+                        <tr>
+                            @php
+                                $columns = ['MPR' => 'MPR', 'device' => 'Device', 'factory_number' => 'Factory Number'];
+                                $currentSort = request('sort', 'MPR');
+                                $currentDirection = request('direction', 'asc');
+                            @endphp
+                            @foreach ($columns as $column => $label)
+                                <th scope="col" class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <a href="{{ route('gassiness.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc']) }}">
+                                        {{ $label }}
+                                        @if ($currentSort == $column)
+                                            @if ($currentDirection == 'asc')
+                                                &#9650; <!-- Up arrow -->
+                                            @else
+                                                &#9660; <!-- Down arrow -->
+                                            @endif
+                                        @endif
+                                    </a>
+                                </th>
+                            @endforeach
+                            <th scope="col" class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Measurements</th>
+                            <th scope="col" class="px-2 py-2 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 150px;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($gassinesses as $index => $gassiness)
+                            <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->MPR }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->device }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->factory_number }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200 flex flex-wrap">
+                                    @foreach ($gassiness->measurements as $measurement)
+                                        @if ($measurement)
+                                            <span class="bg-gray-100 px-2 py-1 m-1 rounded border border-gray-300">{{ $measurement }}</span>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
+                                    <div class="inline-flex">
+                                        <a href="{{ route('gassiness.edit', $gassiness->id) }}" class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                            Edit
+                                        </a>
+                                        <form action="{{ route('gassiness.destroy', $gassiness->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    <div class="mt-4">
+                        {{ $gassinesses->links() }}
+                    </div>
                     <div class="mb-4">
-                        <a href="{{ route('gassiness.create') }}" class="px-4 py-2 text-lg font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600">
+                        <a href="{{ route('gassiness.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
                             Add Record
                         </a>
-                    </div>
-
-                    <div class="mt-6">
-                        @foreach ($gassinesses as $gassiness)
-                            <div class="flex items-center mb-4">
-                                <label for="MPR_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">MPR:</label>
-                                <input type="text" name="MPR" id="MPR_{{ $gassiness->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $gassiness->MPR }}" readonly>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <label for="measurements_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">Measurements:</label>
-                                @foreach ($gassiness->measurements as $key => $measurement)
-                                    <input type="text" name="measurements[]" id="measurements_{{ $gassiness->id }}_{{ $key }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $measurement }}" readonly>
-                                @endforeach
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <label for="device_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">Device:</label>
-                                <input type="text" name="device" id="device_{{ $gassiness->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $gassiness->device }}" readonly>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <label for="factory_number_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">Factory Number:</label>
-                                <input type="text" name="factory_number" id="factory_number_{{ $gassiness->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $gassiness->factory_number }}" readonly>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <label for="user_id_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">User ID:</label>
-                                <input type="text" name="user_id" id="user_id_{{ $gassiness->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $gassiness->user_id }}" readonly>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <label for="user_station_id_{{ $gassiness->id }}" class="w-40 text-lg font-semibold text-gray-800">User Station ID:</label>
-                                <input type="text" name="user_station_id" id="user_station_id_{{ $gassiness->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $gassiness->user_station_id }}" readonly>
-                            </div>
-                            <div class="flex justify-end">
-                                <a href="{{ route('gassiness.edit', $gassiness->id) }}" class="inline-block mr-2 px-4 py-2 text-lg font-semibold text-gray-900 bg-green-200 rounded-md hover:bg-green-300">Edit</a>
-                                <form action="{{ route('gassiness.destroy', $gassiness->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 text-lg font-semibold text-gray-900 bg-red-200 rounded-md hover:bg-red-300">Delete</button>
-                                </form>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
