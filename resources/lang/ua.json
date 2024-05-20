@@ -73,5 +73,6 @@
     "New Password": "Новий пароль",
     "Confirm Password": "Підтвердіть пароль",
     "Saved": "Збережено",
-    "Update your account's profile information.": "Оновіть інформацію профілю свого облікового запису."
+    "Update your account's profile information.": "Оновіть інформацію профілю свого облікового запису.",
+    "one_field_required" : "Принаймні одне поле є обов’язковим."
 }
