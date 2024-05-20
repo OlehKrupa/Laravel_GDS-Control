@@ -28,7 +28,7 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['MPR' => 'MPR', 'device' => 'Device', 'factory_number' => 'Factory Number'];
+                                $columns = ['MPR' => __('MPR'), 'device' => __('Device'), 'factory_number' => __('Factory Number')];
                                 $currentSort = request('sort', 'MPR');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
@@ -46,8 +46,8 @@
                                     </a>
                                 </th>
                             @endforeach
-                            <th scope="col" class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Measurements</th>
-                            <th scope="col" class="px-2 py-2 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 150px;">Actions</th>
+                            <th scope="col" class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Measurements') }}</th>
+                            <th scope="col" class="px-2 py-2 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 150px;">{{ __('Actions') }}</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -66,13 +66,13 @@
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
                                         <a href="{{ route('gassiness.edit', $gassiness->id) }}" class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            Edit
+                                            {{ __('Edit') }}
                                         </a>
                                         <form action="{{ route('gassiness.destroy', $gassiness->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                Delete
+                                                {{ __('Delete') }}
                                             </button>
                                         </form>
                                     </div>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="mb-4">
                         <a href="{{ route('gassiness.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            Add Record
+                            {{ __('Add Record') }}
                         </a>
                     </div>
                 </div>

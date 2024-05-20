@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add gassiness measurements') }}
+            {{ __('add_gassiness_measurements') }}
         </h2>
     </x-slot>
 
@@ -28,14 +28,14 @@
                         @csrf
 
                         <div class="flex items-center mb-4">
-                            <label for="MPR" class="w-40 text-lg font-semibold text-gray-800">MPR:</label>
+                            <label for="MPR" class="w-40 text-lg font-semibold text-gray-800">{{ __('MPR:') }}</label>
                             <input type="text" name="MPR" id="MPR"
                                    class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
                         </div>
 
                         <div class="flex items-center mb-4">
                             <label for="measurements[]"
-                                   class="w-40 text-lg font-semibold text-gray-800">Measurements:</label>
+                                   class="w-40 text-lg font-semibold text-gray-800">{{ __('Measurements:') }}</label>
                             <input type="text" name="measurements[]" id="measurements_1"
                                    class="w-20 pl-2 py-2 border border-gray-300 rounded-md">
                             <input type="text" name="measurements[]" id="measurements_2"
@@ -58,14 +58,13 @@
                         </script>
 
                         <div class="flex items-center mb-4">
-                            <label for="device" class="w-40 text-lg font-semibold text-gray-800">Device:</label>
+                            <label for="device" class="w-40 text-lg font-semibold text-gray-800">{{ __('Device:') }}</label>
                             <input type="text" name="device" id="device"
                                    class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
                         </div>
 
                         <div class="flex items-center mb-4">
-                            <label for="factory_number" class="w-40 text-lg font-semibold text-gray-800">Factory
-                                Number:</label>
+                            <label for="factory_number" class="w-40 text-lg font-semibold text-gray-800">{{ __('Factory Number:') }}</label>
                             <input type="text" name="factory_number" id="factory_number"
                                    class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
                         </div>
@@ -73,7 +72,7 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="px-4 py-2 text-lg font-semibold text-gray-900 bg-blue-500 rounded-md hover:bg-blue-600">
-                                Create
+                                {{ __('Create') }}
                             </button>
                         </div>
                     </form>
