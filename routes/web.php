@@ -3,7 +3,9 @@
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SelfSpendingsController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SpendingsController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GassinessController;
@@ -53,6 +55,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 
+    Route::resource('spendings', SpendingsController::class);
+
+    Route::prefix('selfSpendings')->name('selfSpendings.')->group(function () {
+        Route::get('/', [SelfSpendingsController::class, 'index'])->name('index');
+        Route::get('/create', [SelfSpendingsController::class, 'create'])->name('create');
+        Route::post('/', [SelfSpendingsController::class, 'store'])->name('store');
+        Route::get('{selfSpending}', [SelfSpendingsController::class, 'edit'])->name('edit');
+        Route::put('{selfSpending}', [SelfSpendingsController::class, 'update'])->name('update');
+        Route::delete('{selfSpending}', [SelfSpendingsController::class, 'destroy'])->name('destroy');
+    });
+
     // Journal routes
     Route::resource('journals', JournalController::class);
 
@@ -62,5 +75,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 

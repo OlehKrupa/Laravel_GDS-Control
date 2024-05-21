@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{ route('journals.index') }}" class="hover:text-blue-700">{{ __('Journals') }}</a> / {{ __('Create Journal') }}
+            <a href="{{ route('journals.index') }}" class="hover:text-blue-700">{{ __('Journals') }}</a>
+            / {{ __('Create Journal') }}
         </h2>
     </x-slot>
 
@@ -9,87 +10,114 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('journals.store') }}">
-                        @csrf
+                    <div class="p-6 text-gray-900">
+                        @if (session('success'))
+                            <div class="mb-4 text-green-600">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="mb-4 text-red-600">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('journals.store') }}">
+                            @csrf
 
-                        <div class="mb-4">
-                            <label for="pressure_in" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure In:') }}</label>
-                            <input type="number" step="0.01" name="pressure_in" id="pressure_in" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('pressure_in') }}" />
-                            @error('pressure_in')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="pressure_in"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure In:') }}</label>
+                                <input type="number" step="0.01" name="pressure_in" id="pressure_in"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('pressure_in') }}"/>
 
-                        <div class="mb-4">
-                            <label for="pressure_out_1" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 1:') }}</label>
-                            <input type="number" step="0.01" name="pressure_out_1" id="pressure_out_1" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('pressure_out_1') }}" />
-                            @error('pressure_out_1')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="pressure_out_2" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 2:') }}</label>
-                            <input type="number" step="0.01" name="pressure_out_2" id="pressure_out_2" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('pressure_out_2') }}" />
-                            @error('pressure_out_2')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="pressure_out_1"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 1:') }}</label>
+                                <input type="number" step="0.01" name="pressure_out_1" id="pressure_out_1"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('pressure_out_1') }}"/>
 
-                        <div class="mb-4">
-                            <label for="temperature_1" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 1:') }}</label>
-                            <input type="number" step="0.01" name="temperature_1" id="temperature_1" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('temperature_1') }}" />
-                            @error('temperature_1')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="temperature_2" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 2:') }}</label>
-                            <input type="number" step="0.01" name="temperature_2" id="temperature_2" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('temperature_2') }}" />
-                            @error('temperature_2')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="pressure_out_2"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 2:') }}</label>
+                                <input type="number" step="0.01" name="pressure_out_2" id="pressure_out_2"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('pressure_out_2') }}"/>
 
-                        <div class="mb-4">
-                            <label for="odorant_value_1" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 1:') }}</label>
-                            <input type="number" step="0.01" name="odorant_value_1" id="odorant_value_1" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('odorant_value_1') }}" />
-                            @error('odorant_value_1')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="odorant_value_2" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 2:') }}</label>
-                            <input type="number" step="0.01" name="odorant_value_2" id="odorant_value_2" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('odorant_value_2') }}" />
-                            @error('odorant_value_2')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="temperature_1"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 1:') }}</label>
+                                <input type="number" step="0.01" name="temperature_1" id="temperature_1"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('temperature_1') }}"/>
 
-                        <div class="mb-4">
-                            <label for="gas_heater_temperature_in" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature In:') }}</label>
-                            <input type="number" step="0.01" name="gas_heater_temperature_in" id="gas_heater_temperature_in" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('gas_heater_temperature_in') }}" />
-                            @error('gas_heater_temperature_in')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="gas_heater_temperature_out" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature Out:') }}</label>
-                            <input type="number" step="0.01" name="gas_heater_temperature_out" id="gas_heater_temperature_out" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ old('gas_heater_temperature_out') }}" />
-                            @error('gas_heater_temperature_out')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="temperature_2"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 2:') }}</label>
+                                <input type="number" step="0.01" name="temperature_2" id="temperature_2"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('temperature_2') }}"/>
 
-                        <div>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                {{ __('Create Journal') }}
-                            </button>
-                        </div>
-                    </form>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="odorant_value_1"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 1:') }}</label>
+                                <input type="number" step="0.01" name="odorant_value_1" id="odorant_value_1"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('odorant_value_1') }}"/>
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="odorant_value_2"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 2:') }}</label>
+                                <input type="number" step="0.01" name="odorant_value_2" id="odorant_value_2"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('odorant_value_2') }}"/>
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="gas_heater_temperature_in"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature In:') }}</label>
+                                <input type="number" step="0.01" name="gas_heater_temperature_in"
+                                       id="gas_heater_temperature_in"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('gas_heater_temperature_in') }}"/>
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="gas_heater_temperature_out"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature Out:') }}</label>
+                                <input type="number" step="0.01" name="gas_heater_temperature_out"
+                                       id="gas_heater_temperature_out"
+                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       value="{{ old('gas_heater_temperature_out') }}"/>
+                            </div>
+
+                            <div>
+                                <button type="submit"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    {{ __('Create Journal') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

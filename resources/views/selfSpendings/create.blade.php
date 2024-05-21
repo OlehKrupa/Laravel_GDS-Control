@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{ route('stations.index') }}" class="hover:text-blue-700">{{ __('Stations') }}</a>
-            / {{ __('Add Station') }}
+            <a href="{{ route('selfSpendings.index') }}" class="hover:text-blue-700">{{ __('Self Spendings') }}</a>
+            / {{ __('Add Self Spending') }}
         </h2>
     </x-slot>
 
@@ -25,36 +25,36 @@
                                 </ul>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('stations.store') }}">
+                        <form method="POST" action="{{ route('selfSpendings.store') }}">
                             @csrf
                             <div class="mb-4">
-                                <label for="label"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Label:') }}</label>
-                                <input type="text" name="label" id="label"
+                                <label for="heater_time"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Heater Time:') }}</label>
+                                <input type="text" name="heater_time" id="heater_time"
                                        class="form-input rounded-md shadow-sm mt-1 block w-full"/>
                             </div>
                             <div class="mb-4">
-                                <label for="city"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('City:') }}</label>
-                                <input type="text" name="city" id="city"
+                                <label for="boiler_time"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Boiler Time:') }}</label>
+                                <input type="text" name="boiler_time" id="boiler_time"
                                        class="form-input rounded-md shadow-sm mt-1 block w-full"/>
                             </div>
                             <div class="mb-4">
-                                <label for="region"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Region:') }}</label>
-                                <input type="text" name="region" id="region"
+                                <label for="heater_gas"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Heater Gas:') }}</label>
+                                <input type="text" name="heater_gas" id="heater_gas"
                                        class="form-input rounded-md shadow-sm mt-1 block w-full"/>
                             </div>
                             <div class="mb-4">
-                                <label for="type"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Type:') }}</label>
-                                <input type="text" name="type" id="type"
+                                <label for="boiler_gas"
+                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Boiler Gas:') }}</label>
+                                <input type="text" name="boiler_gas" id="boiler_gas"
                                        class="form-input rounded-md shadow-sm mt-1 block w-full"/>
                             </div>
                             <div>
                                 <button type="submit"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    {{ __('Add Station') }}
+                                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                    {{ __('Save') }}
                                 </button>
                             </div>
                         </form>
