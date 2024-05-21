@@ -58,13 +58,15 @@
                         </script>
 
                         <div class="flex items-center mb-4">
-                            <label for="device" class="w-40 text-lg font-semibold text-gray-800">{{ __('Device:') }}</label>
+                            <label for="device"
+                                   class="w-40 text-lg font-semibold text-gray-800">{{ __('Device:') }}</label>
                             <input type="text" name="device" id="device"
                                    class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
                         </div>
 
                         <div class="flex items-center mb-4">
-                            <label for="factory_number" class="w-40 text-lg font-semibold text-gray-800">{{ __('Factory Number:') }}</label>
+                            <label for="factory_number"
+                                   class="w-40 text-lg font-semibold text-gray-800">{{ __('Factory Number:') }}</label>
                             <input type="text" name="factory_number" id="factory_number"
                                    class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
                         </div>

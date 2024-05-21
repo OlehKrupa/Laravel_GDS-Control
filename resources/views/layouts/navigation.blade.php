@@ -18,12 +18,6 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index')">
-                        {{ __('Journal') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                         {{ __('Reports') }}
                     </x-nav-link>
@@ -36,20 +30,38 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
-                        {{ __('Settings') }}
+                    <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
+                        {{ __('Journal') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('gassiness.index')" :active="request()->routeIs('gassiness.index')">
+                    <x-nav-link :href="route('spendings.index')" :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
+                        {{ __('Spendings') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('selfSpendings.index')" :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
+                        {{ __('Self spendings') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('gassiness.index')" :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
                         {{ __('Gassiness') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index')">
+                    <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
                         {{ __('Notes') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
+                        {{ __('Settings') }}
                     </x-nav-link>
                 </div>
 
@@ -110,22 +122,53 @@
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('journal')" :active="request()->routeIs('journal')">
-                {{ __('Journal') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                 {{ __('Reports') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('stations.index')">
+            <x-responsive-nav-link :href="route('stations.index')" :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
                 {{ __('Stations') }}
             </x-responsive-nav-link>
         </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
+                {{ __('Journal') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('spendings.index')" :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
+                {{ __('Spendings') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('selfSpendings.index')" :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
+                {{ __('Self spendings') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('gassiness.index')" :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
+                {{ __('Gassiness') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
+                {{ __('Notes') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
+                {{ __('Settings') }}
+            </x-responsive-nav-link>
+        </div>
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
