@@ -25,10 +25,19 @@ class SelfSpendingsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'heater_time' => 'required|numeric',
-            'boiler_time' => 'required|numeric',
-            'heater_gas' => 'required|numeric',
-            'boiler_gas' => 'required|numeric',
+            "heater_time" => "required|numeric",
+            "boiler_time" => "required|numeric",
+            "heater_gas" => "required|numeric",
+            "boiler_gas" => "required|numeric",
+        ], [
+            "heater_time.required" => "Поле :attribute є обов'язковим.",
+            "heater_time.numeric" => "Поле :attribute повинне бути числовим.",
+            "boiler_time.required" => "Поле :attribute є обов'язковим.",
+            "boiler_time.numeric" => "Поле :attribute повинне бути числовим.",
+            "heater_gas.required" => "Поле :attribute є обов'язковим.",
+            "heater_gas.numeric" => "Поле :attribute повинне бути числовим.",
+            "boiler_gas.required" => "Поле :attribute є обов'язковим.",
+            "boiler_gas.numeric" => "Поле :attribute повинне бути числовим.",
         ]);
 
         $selfSpending = new SelfSpendings($request->all());
@@ -48,10 +57,19 @@ class SelfSpendingsController extends Controller
     public function update(Request $request, SelfSpendings $selfSpending)
     {
         $request->validate([
-            'heater_time' => 'required|numeric',
-            'boiler_time' => 'required|numeric',
-            'heater_gas' => 'required|numeric',
-            'boiler_gas' => 'required|numeric',
+            "heater_time" => "required|numeric",
+            "boiler_time" => "required|numeric",
+            "heater_gas" => "required|numeric",
+            "boiler_gas" => "required|numeric",
+        ], [
+            "heater_time.required" => "Поле :attribute є обов'язковим.",
+            "heater_time.numeric" => "Поле :attribute повинне бути числовим.",
+            "boiler_time.required" => "Поле :attribute є обов'язковим.",
+            "boiler_time.numeric" => "Поле :attribute повинне бути числовим.",
+            "heater_gas.required" => "Поле :attribute є обов'язковим.",
+            "heater_gas.numeric" => "Поле :attribute повинне бути числовим.",
+            "boiler_gas.required" => "Поле :attribute є обов'язковим.",
+            "boiler_gas.numeric" => "Поле :attribute повинне бути числовим.",
         ]);
 
         $selfSpending->update($request->all());

@@ -29,28 +29,29 @@
                             @csrf
                             <div class="flex items-center mb-4">
                                 <label for="label"
-                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Label:') }}</label>
+                                       class="w-20 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Label:') }}</label>
                                 <input type="text" name="label" id="label"
-                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"/>
+                                       class="w-64 py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                             </div>
                             <div class="flex items-center mb-4">
                                 <label for="city"
-                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('City:') }}</label>
+                                       class="w-20 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('City:') }}</label>
                                 <input type="text" name="city" id="city"
-                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"/>
+                                       class="w-64 py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                             </div>
                             <div class="flex items-center mb-4">
                                 <label for="region"
-                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Region:') }}</label>
+                                       class="w-20 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Region:') }}</label>
                                 <input type="text" name="region" id="region"
-                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"/>
+                                       class="w-64 py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                             </div>
                             <div class="flex items-center mb-4">
                                 <label for="type"
-                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Type:') }}</label>
+                                       class="w-20 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Type:') }}</label>
                                 <input type="text" name="type" id="type"
-                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"/>
+                                       class="w-64 py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                             </div>
+
                             <div>
                                 <button type="submit"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

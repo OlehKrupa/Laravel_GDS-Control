@@ -28,6 +28,11 @@ class SpendingsController extends Controller
         $request->validate([
             'gas' => 'required|numeric',
             'odorant' => 'required|numeric',
+        ], [
+            'gas.required' => 'Поле :attribute є обов\'язковим.',
+            'gas.numeric' => 'Поле :attribute повинне бути числовим.',
+            'odorant.required' => 'Поле :attribute є обов\'язковим.',
+            'odorant.numeric' => 'Поле :attribute повинне бути числовим.',
         ]);
 
         $spending = new Spendings($request->all());
@@ -50,7 +55,13 @@ class SpendingsController extends Controller
         $request->validate([
             'gas' => 'required|numeric',
             'odorant' => 'required|numeric',
+        ], [
+            'gas.required' => 'Поле :attribute є обов\'язковим.',
+            'gas.numeric' => 'Поле :attribute повинне бути числовим.',
+            'odorant.required' => 'Поле :attribute є обов\'язковим.',
+            'odorant.numeric' => 'Поле :attribute повинне бути числовим.',
         ]);
+
 
         $spending->update($request->all());
 

@@ -29,6 +29,13 @@ class GassinessController extends Controller
             'measurements' => 'required|array|min:10',
             'device' => 'required',
             'factory_number' => 'required',
+        ], [
+            "MPR.required" => "Поле :attribute є обов'язковим.",
+            "measurements.required" => "Поле :attribute є обов'язковим.",
+            "measurements.array" => "Поле :attribute має бути масивом.",
+            "measurements.min" => "Поле :attribute повинне містити принаймні :min значень.",
+            "device.required" => "Поле :attribute є обов'язковим.",
+            "factory_number.required" => "Поле :attribute є обов'язковим.",
         ]);
 
         $gassiness = new Gassiness();
@@ -55,6 +62,13 @@ class GassinessController extends Controller
             'measurements' => 'required|array|min:10',
             'device' => 'required',
             'factory_number' => 'required',
+        ], [
+            "MPR.required" => "Поле :attribute є обов'язковим.",
+            "measurements.required" => "Поле :attribute є обов'язковим.",
+            "measurements.array" => "Поле :attribute має бути масивом.",
+            "measurements.min" => "Поле :attribute повинне містити принаймні :min значень.",
+            "device.required" => "Поле :attribute є обов'язковим.",
+            "factory_number.required" => "Поле :attribute є обов'язковим.",
         ]);
 
         $gassiness->MPR = $request->input('MPR');

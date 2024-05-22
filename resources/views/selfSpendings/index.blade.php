@@ -21,7 +21,7 @@
                         <tr>
                             @php
                                 $columns = ['created_at' => __('Created At'), 'heater_time' => __('Heater Time'), 'boiler_time' => __('Boiler Time'), 'heater_gas' => __('Heater Gas'), 'boiler_gas' => __('Boiler Gas')];
-                                $currentSort = request('sort', 'heater_time');
+                                $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
                             @foreach ($columns as $column => $label)

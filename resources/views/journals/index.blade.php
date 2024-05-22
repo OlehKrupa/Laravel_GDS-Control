@@ -9,6 +9,22 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <form id="days-form" action="{{ route('journals.index') }}" method="GET">
+                        <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
+                        <input type="hidden" name="direction" value="{{ request('direction', 'desc') }}">
+
+                        <div class="flex items-center mb-4">
+                            <label for="days" class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Кількість днів для відображення</label>
+                            <select id="days" name="days" class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base" onchange="document.getElementById('days-form').submit()">
+                                <option value="1" {{ request('days', 1) == 1 ? 'selected' : '' }}>1 день</option>
+                                <option value="3" {{ request('days', 1) == 3 ? 'selected' : '' }}>3 дні</option>
+                                <option value="7" {{ request('days', 1) == 7 ? 'selected' : '' }}>7 днів</option>
+                                <option value="30" {{ request('days', 1) == 30 ? 'selected' : '' }}>30 днів</option>
+                            </select>
+                        </div>
+
+                    </form>
+
                     <table class="min-w-full divide-y divide-gray-200 border border-gray-200">
                         <thead>
                         <tr>
@@ -25,13 +41,14 @@
                                     'gas_heater_temperature_in' => __('Gas Heater Temperature In'),
                                     'gas_heater_temperature_out' => __('Gas Heater Temperature Out'),
                                 ];
-                                $currentSort = request('sort', 'pressure_in');
+                                $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
                             @foreach ($columns as $column => $label)
                                 <th scope="col"
                                     class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('journals.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc'? 'desc' : 'asc']) }}">
+                                    <a href="{{ route('journals.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc', 'days' => request('days', 1)]) }}">
+
                                         {{ $label }}
                                         @if ($currentSort == $column)
                                             @if ($currentDirection == 'asc')
@@ -84,8 +101,9 @@
                         @endforeach
                         </tbody>
                     </table>
+
                     <div class="mt-4">
-                        {{ $journals->links() }}
+                        {{ $journals->appends(['sort' => request('sort'), 'direction' => request('direction'), 'days' => request('days')])->links() }}
                     </div>
 
                     <div class="mb-4">
@@ -94,7 +112,6 @@
                             {{ __('Add Journal') }}
                         </a>
                     </div>
-
                 </div>
             </div>
         </div>

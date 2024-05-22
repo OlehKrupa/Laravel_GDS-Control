@@ -25,11 +25,16 @@ class StationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'label' => 'required',
-            'city' => 'required',
-            'region' => 'required',
-            'type' => 'required',
-        ]);
+        'label' => 'required',
+        'city' => 'required',
+        'region' => 'required',
+        'type' => 'required',
+    ], [
+        'label.required' => 'Поле :attribute є обов\'язковим.',
+        'city.required' => 'Поле :attribute є обов\'язковим.',
+        'region.required' => 'Поле :attribute є обов\'язковим.',
+        'type.required' => 'Поле :attribute є обов\'язковим.',
+    ]);
 
         Station::create($request->all());
 
@@ -49,6 +54,11 @@ class StationController extends Controller
             'city' => 'required',
             'region' => 'required',
             'type' => 'required',
+        ], [
+            'label.required' => 'Поле :attribute є обов\'язковим.',
+            'city.required' => 'Поле :attribute є обов\'язковим.',
+            'region.required' => 'Поле :attribute є обов\'язковим.',
+            'type.required' => 'Поле :attribute є обов\'язковим.',
         ]);
 
         $station->update($request->all());

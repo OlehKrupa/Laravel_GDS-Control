@@ -36,7 +36,7 @@
                                     'visits_by_outsiders' => __('Visits by Outsiders'),
                                     'inspection_of_pressure_tanks' => __('Inspection of Pressure Tanks'),
                                 ];
-                                $currentSort = request('sort', 'operational_switching');
+                                $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
                             @foreach ($columns as $column => $label)

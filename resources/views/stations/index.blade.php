@@ -69,12 +69,12 @@
                         <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
                             {{ __('Add Station') }}
                         </a>
-                        <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            {{ __('Quick report') }}
-                        </a>
-                        <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
-                            {{ __('Quick report') }}
-                        </a>
+{{--                        <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">--}}
+{{--                            {{ __('Quick report') }}--}}
+{{--                        </a>--}}
+{{--                        <a href="{{ route('stations.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">--}}
+{{--                            {{ __('Quick report') }}--}}
+{{--                        </a>--}}
                     </div>
 
                 </div>

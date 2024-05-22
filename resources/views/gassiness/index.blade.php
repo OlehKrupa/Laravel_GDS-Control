@@ -29,7 +29,7 @@
                         <tr>
                             @php
                                 $columns = ['created_at' => __('Created At'), 'MPR' => __('MPR'), 'device' => __('Device'), 'factory_number' => __('Factory Number')];
-                                $currentSort = request('sort', 'MPR');
+                                $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
                             @foreach ($columns as $column => $label)
