@@ -14,6 +14,7 @@
                         <tr>
                             @php
                                 $columns = [
+                                    'created_at' => __('Created At'),
                                     'pressure_in' => __('Pressure In'),
                                     'pressure_out_1' => __('Pressure Out 1'),
                                     'pressure_out_2' => __('Pressure Out 2'),
@@ -52,6 +53,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($journals as $index => $journal)
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->pressure_in }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->pressure_out_1 }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->pressure_out_2 }}</td>

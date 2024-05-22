@@ -29,6 +29,7 @@
                         <tr>
                             @php
                                 $columns = [
+                                    'created_at' => __('Created At'),
                                     'operational_switching' => __('Operational Switching'),
                                     'received_orders' => __('Received Orders'),
                                     'completed_works' => __('Completed Works'),
@@ -58,6 +59,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($notes as $note)
                             <tr>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->operational_switching }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->received_orders }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->completed_works }}</td>

@@ -28,21 +28,21 @@
                     <form method="POST" action="{{ route('stations.update', $station->id) }}">
                         @csrf
                         @method('PUT')
-                        <div class="mb-4">
-                            <label for="label" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Label:') }}</label>
-                            <input type="text" name="label" id="label" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $station->label }}" />
+                        <div class="flex items-center mb-4">
+                            <label for="label" class="w-40 text-lg font-semibold text-gray-800">{{ __('Label:') }}</label>
+                            <input type="text" name="label" id="label" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $station->label }}" />
                         </div>
-                        <div class="mb-4">
-                            <label for="city" class="block text-gray-700 text-sm font-bold mb-2">{{ __('City:') }}</label>
-                            <input type="text" name="city" id="city" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $station->city }}" />
+                        <div class="flex items-center mb-4">
+                            <label for="city" class="w-40 text-lg font-semibold text-gray-800">{{ __('City:') }}</label>
+                            <input type="text" name="city" id="city" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $station->city }}" />
                         </div>
-                        <div class="mb-4">
-                            <label for="region" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Region:') }}</label>
-                            <input type="text" name="region" id="region" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $station->region }}" />
+                        <div class="flex items-center mb-4">
+                            <label for="region" class="w-40 text-lg font-semibold text-gray-800">{{ __('Region:') }}</label>
+                            <input type="text" name="region" id="region" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $station->region }}" />
                         </div>
-                        <div class="mb-4">
-                            <label for="type" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Type:') }}</label>
-                            <input type="text" name="type" id="type" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $station->type }}" />
+                        <div class="flex items-center mb-4">
+                            <label for="type" class="w-40 text-lg font-semibold text-gray-800">{{ __('Type:') }}</label>
+                            <input type="text" name="type" id="type" class="w-64 pl-2 py-2 border border-gray-300 rounded-md" value="{{ $station->type }}" />
                         </div>
                         <div>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

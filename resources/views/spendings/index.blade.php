@@ -19,7 +19,7 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['gas' => __('Gas'), 'odorant' => __('Odorant'), 'created_at' => __('Created At')];
+                                $columns = ['created_at' => __('Created At'), 'gas' => __('Gas'), 'odorant' => __('Odorant')];
                                 $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
@@ -45,9 +45,9 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($spendings as $index => $spending)
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $spending->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $spending->gas }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $spending->odorant }}</td>
-                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $spending->created_at }}</td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
                                         <a href="{{ route('spendings.edit', $spending->id) }}" class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">

@@ -28,7 +28,7 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['MPR' => __('MPR'), 'device' => __('Device'), 'factory_number' => __('Factory Number')];
+                                $columns = ['created_at' => __('Created At'), 'MPR' => __('MPR'), 'device' => __('Device'), 'factory_number' => __('Factory Number')];
                                 $currentSort = request('sort', 'MPR');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
@@ -53,6 +53,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($gassinesses as $index => $gassiness)
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->MPR }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->device }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->factory_number }}</td>

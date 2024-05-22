@@ -20,7 +20,7 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['heater_time' => __('Heater Time'), 'boiler_time' => __('Boiler Time'), 'heater_gas' => __('Heater Gas'), 'boiler_gas' => __('Boiler Gas')];
+                                $columns = ['created_at' => __('Created At'), 'heater_time' => __('Heater Time'), 'boiler_time' => __('Boiler Time'), 'heater_gas' => __('Heater Gas'), 'boiler_gas' => __('Boiler Gas')];
                                 $currentSort = request('sort', 'heater_time');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
@@ -46,6 +46,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($selfSpendings as $index => $selfSpending)
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->heater_time }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->boiler_time }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->heater_gas }}</td>

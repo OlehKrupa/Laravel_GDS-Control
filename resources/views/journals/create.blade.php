@@ -28,85 +28,85 @@
                         <form method="POST" action="{{ route('journals.store') }}">
                             @csrf
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="pressure_in"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure In:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Pressure In') }}:</label>
                                 <input type="number" step="0.01" name="pressure_in" id="pressure_in"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('pressure_in') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="pressure_out_1"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 1:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Pressure Out 1') }}:</label>
                                 <input type="number" step="0.01" name="pressure_out_1" id="pressure_out_1"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('pressure_out_1') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="pressure_out_2"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Pressure Out 2:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Pressure Out 2') }}:</label>
                                 <input type="number" step="0.01" name="pressure_out_2" id="pressure_out_2"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('pressure_out_2') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="temperature_1"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 1:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Temperature 1') }}:</label>
                                 <input type="number" step="0.01" name="temperature_1" id="temperature_1"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('temperature_1') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="temperature_2"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Temperature 2:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Temperature 2') }}:</label>
                                 <input type="number" step="0.01" name="temperature_2" id="temperature_2"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('temperature_2') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="odorant_value_1"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 1:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Odorant Value 1') }}:</label>
                                 <input type="number" step="0.01" name="odorant_value_1" id="odorant_value_1"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('odorant_value_1') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="odorant_value_2"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Odorant Value 2:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Odorant Value 2') }}:</label>
                                 <input type="number" step="0.01" name="odorant_value_2" id="odorant_value_2"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('odorant_value_2') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="gas_heater_temperature_in"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature In:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Gas Heater Temperature In') }}:</label>
                                 <input type="number" step="0.01" name="gas_heater_temperature_in"
                                        id="gas_heater_temperature_in"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('gas_heater_temperature_in') }}"/>
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="flex items-center mb-4">
                                 <label for="gas_heater_temperature_out"
-                                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Gas Heater Temperature Out:') }}</label>
+                                       class="w-40 text-lg font-semibold text-gray-800">{{ __('Gas Heater Temperature Out') }}:</label>
                                 <input type="number" step="0.01" name="gas_heater_temperature_out"
                                        id="gas_heater_temperature_out"
-                                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                       class="w-64 pl-2 py-2 border border-gray-300 rounded-md"
                                        value="{{ old('gas_heater_temperature_out') }}"/>
                             </div>
 
