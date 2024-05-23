@@ -791,15 +791,14 @@
                     @auth
                         <a href="{{ url('/dashboard') }}"
                            class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div><h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Go to
-                                    dashboard</h2></div>
+                            <div><h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Перейти на головну</h2></div>
                             <!-- <div class="h-16 w-16 bg-red-50 dark:bg-white-800/20 flex items-center justify-center rounded-full"> <img width="48" height="48" src="https://img.icons8.com/parakeet/48/dashboard.png" alt="dashboard"/> </div> -->
                         </a>
                         <a href="{{ route('logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                            class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
 
-                            <div><h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{__("Log out")}}</h2></div>
+                            <div><h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{__("Logout")}}</h2></div>
                         </a>
                         <form id="logout-form" method="POST" action="{{ route('logout') }}"
                               style="display: none;"> @csrf </form>

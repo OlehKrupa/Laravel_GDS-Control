@@ -16,16 +16,20 @@ class SettingsController extends Controller
     public function update(Request $request, Settings $setting)
     {
         $request->validate([
-            'value' => 'required|string|max:255',
+            'value' => 'required|numeric|max:255',
+        ], [
+            "value.required" => "Значення обов'язкове для заповнення",
+            "value.string" => "Значення має бути числом",
+            "value.max" => "Значення занадто довге",
         ]);
 
         $setting->update(['value' => $request->value]);
-        return redirect()->route('settings.index')->with('success', 'Setting updated successfully.');
+        return redirect()->route('settings.index')->with('success', 'Значення оновлено вдало!');
     }
 
     public function destroy(Settings $setting)
     {
         $setting->delete();
-        return redirect()->route('settings.index')->with('success', 'Setting deleted successfully.');
+        return redirect()->route('settings.index')->with('success', 'Значення видалено!');
     }
 }

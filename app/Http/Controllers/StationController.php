@@ -30,10 +30,10 @@ class StationController extends Controller
         'region' => 'required',
         'type' => 'required',
     ], [
-        'label.required' => 'Поле :attribute є обов\'язковим.',
-        'city.required' => 'Поле :attribute є обов\'язковим.',
-        'region.required' => 'Поле :attribute є обов\'язковим.',
-        'type.required' => 'Поле :attribute є обов\'язковим.',
+        'label.required' => 'Поле мітка є обов\'язковим.',
+        'city.required' => 'Поле місто є обов\'язковим.',
+        'region.required' => 'Поле регіон є обов\'язковим.',
+        'type.required' => 'Поле тип є обов\'язковим.',
     ]);
 
         Station::create($request->all());
@@ -55,10 +55,10 @@ class StationController extends Controller
             'region' => 'required',
             'type' => 'required',
         ], [
-            'label.required' => 'Поле :attribute є обов\'язковим.',
-            'city.required' => 'Поле :attribute є обов\'язковим.',
-            'region.required' => 'Поле :attribute є обов\'язковим.',
-            'type.required' => 'Поле :attribute є обов\'язковим.',
+            'label.required' => 'Поле мітка є обов\'язковим.',
+            'city.required' => 'Поле місто є обов\'язковим.',
+            'region.required' => 'Поле регіон є обов\'язковим.',
+            'type.required' => 'Поле тип є обов\'язковим.',
         ]);
 
         $station->update($request->all());

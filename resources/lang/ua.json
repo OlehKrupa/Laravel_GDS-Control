@@ -24,7 +24,7 @@
     "Register": "Зареєструватися",
     "Reports": "Звіти",
     "Resend Verification Email": "Надіслати електронного листа з підтвердженням ще раз",
-    "Roles": "Ролі",
+    "Roles": "Посада",
     "Save": "Зберегти",
     "Saved.": "Збережено.",
     "Select report type:": "Виберіть тип звіту:",
@@ -123,5 +123,7 @@
     "results": "результатів",
     "go_to_page": "Перейти на сторінку :page",
     "Create record": "Зробити запис",
-    "Update record": "Оновити запис"
+    "Update record": "Оновити запис",
+    "Logout": "Вийти з облікового запису",
+    "Already registered?": "Вже зареєстровані?"
 }

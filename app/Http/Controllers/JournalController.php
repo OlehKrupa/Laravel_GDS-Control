@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Journal;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +14,18 @@ class JournalController extends Controller
         $sort = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'desc');
         $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
 
-        $journals = Journal::where('created_at', '>=', now()->subDays($days))->orderBy($sort, $direction)->paginate(8);
+        $query = Journal::where('created_at', '>=', now()->subDays($days));
 
-        return view('journals.index', compact('journals'));
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        $journals = $query->orderBy($sort, $direction)->paginate(8);
+        $stations = Station::all();
+
+        return view('journals.index', compact('journals', 'stations'));
     }
 
     public function create()
@@ -67,7 +76,7 @@ class JournalController extends Controller
         $journal->user_station_id = Auth::user()->station_id;
         $journal->save();
 
-        return redirect()->route('journals.index')->with('success', 'Journal created successfully!');
+        return redirect()->route('journals.index')->with('success', 'Запис створено!');
     }
 
     public function edit(Journal $journal)
@@ -116,13 +125,13 @@ class JournalController extends Controller
         $journal->user_station_id = Auth::user()->station_id;
         $journal->save();
 
-        return redirect()->route('journals.index')->with('success', 'Journal updated successfully!');
+        return redirect()->route('journals.index')->with('success', 'Запис оновлено!');
     }
 
     public function destroy(Journal $journal)
     {
         $journal->delete();
 
-        return redirect()->route('journals.index')->with('success', 'Journal deleted successfully!');
+        return redirect()->route('journals.index')->with('success', 'Запис видалено!');
     }
 }

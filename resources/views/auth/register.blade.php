@@ -27,7 +27,7 @@
         <div>
             <x-input-label for="station_id" :value="__('Station')" />
             <select id="station_id" name="station_id" class="block mt-1 w-full" required>
-                <option value="">Select a station</option>
+                <option value="">Обрати станцію</option>
                 @foreach($stations as $station)
                     <option value="{{ $station->id }}">{{ $station->label }}, {{ $station->city }}</option>
                 @endforeach
