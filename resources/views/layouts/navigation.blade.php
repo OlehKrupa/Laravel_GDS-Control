@@ -17,12 +17,6 @@
                     </x-nav-link>
                 </div>
 
-{{--                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">--}}
-{{--                    <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">--}}
-{{--                        {{ __('Reports') }}--}}
-{{--                    </x-nav-link>--}}
-{{--                </div>--}}
-
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('stations.index')" :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
                         {{ __('Stations') }}
@@ -120,12 +114,6 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
-
-{{--        <div class="pt-2 pb-3 space-y-1">--}}
-{{--            <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">--}}
-{{--                {{ __('Reports') }}--}}
-{{--            </x-responsive-nav-link>--}}
-{{--        </div>--}}
 
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('stations.index')" :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">

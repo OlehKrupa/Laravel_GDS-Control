@@ -8,7 +8,7 @@
     "Email": "Електронна пошта",
     "Email Password Reset Link": "Надіслати посилання для скидання пароля по електронній пошті",
     "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Забули пароль? Немає проблем. Просто вкажіть свою адресу електронної пошти, і ми відправимо вам посилання для скидання пароля, за допомогою якого ви зможете обрати новий.",
-    "Generate report": "Згенерувати звіт",
+    "Generate report": "Сформувати звіт",
     "Gassiness": "Загазованість",
     "Journal": "Показники",
     "Log Out": "Вийти",
@@ -125,5 +125,16 @@
     "Create record": "Зробити запис",
     "Update record": "Оновити запис",
     "Logout": "Вийти з облікового запису",
-    "Already registered?": "Вже зареєстровані?"
+    "Already registered?": "Вже зареєстровані?",
+
+    "Days": "Дні",
+    "Model": "Запис",
+    "Field": "Поле",
+    "Chart Type": "Тип діаграми",
+
+    "stations_by_city": "Станції за містами",
+    "stations_by_region": "Станції за регіонами",
+    "stations_by_type": "Станції за типами",
+    "select_report_type:": "Звіт:"
+
 }

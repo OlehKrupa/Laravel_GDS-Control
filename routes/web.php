@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
@@ -16,12 +17,16 @@ Route::view('/', 'welcome');
 
 // Dashboard and other authenticated user routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/get-fields', [DashboardController::class, 'getFields']);
+    Route::get('/chart-data', [DashboardController::class, 'getChartData']);
+
     Route::view('/journal', 'journal')->name('journal');
     Route::view('/reports', 'reports')->name('reports');
 
     // Stations resource
     Route::resource('stations', StationController::class);
+    Route::post('stations/generate', [StationController::class, 'generate'])->name('station.generate.report');
 
     // Settings routes
     Route::prefix('settings')->name('settings.')->group(function () {
@@ -69,10 +74,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Journal routes
     Route::resource('journals', JournalController::class);
 
-    // Reports routes
-    Route::prefix('reports')->name('reports.')->group(function () {
-        Route::post('/generate', [ReportController::class, 'generate'])->name('generate');
-    });
 });
 
 require __DIR__ . '/auth.php';
