@@ -38,7 +38,7 @@ class DashboardController extends Controller
         switch ($model) {
             case 'Journal':
                 $fields = [
-                    'pressure_in' ,
+                    'pressure_in',
                     'pressure_out_1',
                     'pressure_out_2',
                     'temperature_1',
@@ -64,7 +64,6 @@ class DashboardController extends Controller
                 ];
                 break;
             default:
-                // добавить логику для других моделей
                 break;
         }
 
@@ -104,8 +103,47 @@ class DashboardController extends Controller
             case 'SelfSpendings':
                 return SelfSpendings::query();
             default:
-                // add logic for other models
                 break;
         }
     }
+
+    public function getForecastData(Request $request)
+    {
+        $station_id = $request->input('station_id');
+        $days = $request->input('days');
+        $model = $request->input('model');
+        $field = $request->input('field');
+        $forecastDepth = $request->input('forecastDepth', 1);
+
+        $actualData = $this->getData($station_id, $days, $model, $field);
+        $forecastData = $this->getForecast(array_values($actualData), $forecastDepth);
+
+        return response()->json([
+            'actualData' => $actualData,
+            'forecastData' => $forecastData,
+        ]);
+    }
+
+    private function getForecast($data, $depth)
+    {
+        $alpha = 1.25;
+        $beta = 1.8;
+        $forecastData = [];
+        $prev = $data[0];
+
+        foreach ($data as $value) {
+            $forecast = $alpha * $value + $beta * (1 - $alpha) * $prev;
+            $forecastData[] = round($forecast, 2);
+            $prev = $forecast;
+        }
+
+        for ($i = 0; $i < $depth; $i++) {
+            $forecast = $alpha * end($data) + $beta * (1 - $alpha) * $prev;
+            $forecastData[] = round($forecast, 2);
+            $prev = $forecast;
+        }
+
+        return $forecastData;
+    }
+
 }

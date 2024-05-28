@@ -82,18 +82,31 @@
                         </div>
                     </form>
 
-                    <div id="chart" style="width: 100%; height: 400px;"></div>
+                    <div class="flex items-center mb-4">
+                        <label class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md" for="forecastDepth">
+                            {{ __('forecast_depth') }}
+                        </label>
+                        <input type="range" id="forecastDepth" name="forecastDepth" min="1" max="10" value="1" class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
+                        <span id="forecastDepthValue" class="ml-4">1</span>
+                    </div>
+                    <div class="flex items-center mb-4 mr-4">
+                        <button id="forecastButton"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Зробити прогноз
+                        </button>
+                    </div>
 
+                    <div id="chart" style="width: 100%; height: 400px;"></div>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script src="https://code.highcharts.com/highcharts.js"></script>
                     <script src="https://code.highcharts.com/modules/exporting.js"></script>
                     <script src="https://code.highcharts.com/modules/export-data.js"></script>
                     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
                     <script>
                         $(document).ready(function () {
-                            // Функция для загрузки полей модели
+                            // Загружаем данные полей
                             function loadFields(model) {
-                                $.get('/get-fields', {model: model}, function (data) {
+                                $.get('/get-fields', { model: model }, function (data) {
                                     $('#field').empty();
                                     data.fields.forEach(function (field) {
                                         $('#field').append(new Option(field, field));
@@ -101,22 +114,19 @@
                                 });
                             }
 
-                            // Инициализация полей при загрузке страницы
                             loadFields($('#model').val());
 
-                            // Обновление полей при изменении модели
                             $('#model').on('change', function () {
                                 loadFields($(this).val());
                             });
 
-                            // Функция для загрузки данных графика
+                            // Загружаем данные графика
                             function loadChartData() {
                                 var formData = $('#filterForm').serialize();
-                                var fieldName = $('#field option:selected').text(); // Получение названия выбранного поля
+                                var fieldName = $('#field option:selected').text();
                                 $.get('/chart-data', formData, function (data) {
                                     var chartType = $('#chartType').val();
-
-                                    var chart = Highcharts.chart('chart', {
+                                    Highcharts.chart('chart', {
                                         chart: {
                                             type: chartType
                                         },
@@ -136,7 +146,8 @@
                                         },
                                         series: [{
                                             data: Object.values(data),
-                                            name: fieldName // Использование названия поля
+                                            name: fieldName,
+                                            color: 'blue'
                                         }],
                                         lang: {
                                             loading: 'Завантаження...',
@@ -173,10 +184,81 @@
                                 });
                             }
 
-                            // Загрузка данных графика при изменении параметров формы
                             $('#station, #days, #model, #field, #chartType').on('change', loadChartData);
 
-                            // Загрузка данных графика при первой загрузке страницы
+                            // Обновляем значение ползунка
+                            $('#forecastDepth').on('input', function () {
+                                $('#forecastDepthValue').text($(this).val());
+                            });
+
+                            // Обрабатываем нажатие кнопки прогноза
+                            $('#forecastButton').on('click', function () {
+                                var formData = $('#filterForm').serialize() + '&forecastDepth=' + $('#forecastDepth').val();
+                                var fieldName = $('#field option:selected').text();
+                                $.get('/forecast-data', formData, function (data) {
+                                    var chart = Highcharts.chart('chart', {
+                                        chart: {
+                                            type: $('#chartType').val()
+                                        },
+                                        title: {
+                                            text: null
+                                        },
+                                        xAxis: {
+                                            categories: Object.keys(data.actualData),
+                                            title: {
+                                                text: 'Дата'
+                                            }
+                                        },
+                                        yAxis: {
+                                            title: {
+                                                text: 'Значення'
+                                            }
+                                        },
+                                        series: [{
+                                            data: Object.values(data.actualData),
+                                            name: fieldName,
+                                            color: 'blue'
+                                        }, {
+                                            data: data.forecastData,
+                                            name: 'Прогноз',
+                                            color: 'green',
+                                            dashStyle: 'Dash'
+                                        }],
+                                        lang: {
+                                            loading: 'Завантаження...',
+                                            months: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+                                            weekdays: ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П’ятниця', 'Субота'],
+                                            shortMonths: ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер', 'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'],
+                                            exportButtonTitle: "Експортувати",
+                                            printButtonTitle: "Друк",
+                                            rangeSelectorFrom: "З",
+                                            rangeSelectorTo: "По",
+                                            rangeSelectorZoom: "Період",
+                                            downloadPNG: 'Завантажити PNG',
+                                            downloadJPEG: 'Завантажити JPEG',
+                                            downloadPDF: 'Завантажити PDF',
+                                            downloadSVG: 'Завантажити SVG',
+                                            resetZoom: "Скинути масштаб",
+                                            resetZoomTitle: "Скинути масштаб до 1:1",
+                                            thousandsSep: " ",
+                                            decimalPoint: ','
+                                        },
+                                        exporting: {
+                                            buttons: {
+                                                contextButton: {
+                                                    menuItems: [
+                                                        'downloadPNG',
+                                                        'downloadJPEG',
+                                                        'downloadPDF',
+                                                        'downloadSVG'
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+
                             loadChartData();
                         });
                     </script>

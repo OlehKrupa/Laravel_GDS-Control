@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/get-fields', [DashboardController::class, 'getFields']);
     Route::get('/chart-data', [DashboardController::class, 'getChartData']);
+    Route::get('/forecast-data', [DashboardController::class, 'getForecastData'])->name('forecast-data');
 
     Route::view('/journal', 'journal')->name('journal');
     Route::view('/reports', 'reports')->name('reports');

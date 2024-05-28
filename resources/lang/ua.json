@@ -135,6 +135,7 @@
     "stations_by_city": "Станції за містами",
     "stations_by_region": "Станції за регіонами",
     "stations_by_type": "Станції за типами",
-    "select_report_type:": "Звіт:"
+    "select_report_type:": "Звіт:",
+    "forecast_depth": "Глибина прогнозу"
 
 }
