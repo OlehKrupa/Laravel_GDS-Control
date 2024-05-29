@@ -82,13 +82,15 @@
                         </div>
                     </form>
 
-                    <div class="flex items-center mb-4">
+                    <!-- Закомментирован функционал, связанный с глубиной прогноза -->
+                    <!-- <div class="flex items-center mb-4">
                         <label class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md" for="forecastDepth">
                             {{ __('forecast_depth') }}
-                        </label>
-                        <input type="range" id="forecastDepth" name="forecastDepth" min="1" max="10" value="1" class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
-                        <span id="forecastDepthValue" class="ml-4">1</span>
-                    </div>
+                    </label>
+                    <input type="range" id="forecastDepth" name="forecastDepth" min="1" max="10" value="1" class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
+                    <span id="forecastDepthValue" class="ml-4">1</span>
+                </div> -->
+
                     <div class="flex items-center mb-4 mr-4">
                         <button id="forecastButton"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Зробити прогноз
@@ -187,13 +189,14 @@
                             $('#station, #days, #model, #field, #chartType').on('change', loadChartData);
 
                             // Обновляем значение ползунка
-                            $('#forecastDepth').on('input', function () {
-                                $('#forecastDepthValue').text($(this).val());
-                            });
+                            // $('#forecastDepth').on('input', function () {
+                            //     $('#forecastDepthValue').text($(this).val());
+                            // });
 
                             // Обрабатываем нажатие кнопки прогноза
                             $('#forecastButton').on('click', function () {
-                                var formData = $('#filterForm').serialize() + '&forecastDepth=' + $('#forecastDepth').val();
+                                var formData = $('#filterForm').serialize();
+                                // var formData = $('#filterForm').serialize() + '&forecastDepth=' + $('#forecastDepth').val();
                                 var fieldName = $('#field option:selected').text();
                                 $.get('/forecast-data', formData, function (data) {
                                     var chart = Highcharts.chart('chart', {
