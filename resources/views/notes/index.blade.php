@@ -57,8 +57,8 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($notes as $note)
-                            <tr>
+                        @foreach ($notes as $index => $note)
+                            <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->operational_switching }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->received_orders }}</td>

@@ -1,13 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Note') }}
+            <a href="{{ route('notes.index') }}" class="hover:text-blue-700">{{ __('Notes') }}</a>
+            / {{ __('Create Note') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
                     @if (session('success'))
                         <div class="mb-4 text-green-600">
                             {{ session('success') }}
@@ -28,37 +30,47 @@
 
                         <div class="flex items-center mb-4">
                             <label for="operational_switching"
-                                   class="w-1/4 text-lg font-semibold text-gray-800">{{ __('Operational Switching') }}:</label>
+                                   class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Operational Switching') }}
+                                :</label>
                             <input type="text" name="operational_switching" id="operational_switching"
-                                   class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
+                                   class="w-max py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   value="{{ old('operational_switching') }}"/>
                         </div>
 
                         <div class="flex items-center mb-4">
                             <label for="received_orders"
-                                   class="w-1/4 text-lg font-semibold text-gray-800">{{ __('Received Orders') }}:</label>
+                                   class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Received Orders') }}
+                                :</label>
                             <input type="text" name="received_orders" id="received_orders"
-                                   class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
+                                   class="w-max py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   value="{{ old('received_orders') }}"/>
                         </div>
 
                         <div class="flex items-center mb-4">
                             <label for="completed_works"
-                                   class="w-1/4 text-lg font-semibold text-gray-800">{{ __('Completed Works') }}:</label>
+                                   class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Completed Works') }}
+                                :</label>
                             <input type="text" name="completed_works" id="completed_works"
-                                   class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
+                                   class="w-max py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   value="{{ old('completed_works') }}"/>
                         </div>
 
                         <div class="flex items-center mb-4">
                             <label for="visits_by_outsiders"
-                                   class="w-1/4 text-lg font-semibold text-gray-800">{{ __('Visits by Outsiders') }}:</label>
+                                   class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Visits by Outsiders') }}
+                                :</label>
                             <input type="text" name="visits_by_outsiders" id="visits_by_outsiders"
-                                   class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
+                                   class="w-max py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   value="{{ old('visits_by_outsiders') }}"/>
                         </div>
 
                         <div class="flex items-center mb-4">
                             <label for="inspection_of_pressure_tanks"
-                                   class="w-1/4 text-lg font-semibold text-gray-800">{{ __('Inspection of Pressure Tanks') }}:</label>
+                                   class="w-max text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md">{{ __('Inspection of Pressure Tanks') }}
+                                :</label>
                             <input type="text" name="inspection_of_pressure_tanks" id="inspection_of_pressure_tanks"
-                                   class="w-64 pl-2 py-2 border border-gray-300 rounded-md">
+                                   class="w-max py-2 px-4 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   value="{{ old('inspection_of_pressure_tanks') }}"/>
                         </div>
 
                         <div class="flex justify-end">
@@ -68,6 +80,7 @@
                             </button>
                         </div>
                     </form>
+                </div>
             </div>
         </div>
     </div>
