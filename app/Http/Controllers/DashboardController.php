@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use App\Models\Journal;
 use App\Models\Station;
@@ -28,7 +29,16 @@ class DashboardController extends Controller
         $model = $request->input('model');
         $fields = $this->getFieldsByModel($model);
 
-        return response()->json(['fields' => $fields]);
+        // Формируем массив полей с переводами и без переводов
+        $translatedFields = [];
+        foreach ($fields as $field) {
+            $translatedFields[] = [
+                'original' => $field,
+                'translated' => __($field),
+            ];
+        }
+
+        return response()->json(['fields' => $translatedFields]);
     }
 
     private function getFieldsByModel($model)
@@ -126,8 +136,17 @@ class DashboardController extends Controller
 
     private function getForecast($data, $depth)
     {
-        $alpha = 1.25;
-        $beta = 1.8;
+        $alphaSetting = Settings::where('name', 'alpha')->first();
+        $betaSetting = Settings::where('name', 'beta')->first();
+
+        if ($alphaSetting && $betaSetting) {
+            $alpha = (float)$alphaSetting->value;
+            $beta = (float)$betaSetting->value;
+        } else {
+            $alpha = 0.5;
+            $beta = 0.5;
+        }
+
         $forecastData = [];
         $prev = $data[0];
 
