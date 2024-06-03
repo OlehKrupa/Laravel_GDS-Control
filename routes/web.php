@@ -4,11 +4,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\SelfSpendingsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpendingsController;
 use App\Http\Controllers\StationController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GassinessController;
 use Illuminate\Support\Facades\Route;
 
