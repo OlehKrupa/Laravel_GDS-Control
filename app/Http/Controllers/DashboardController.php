@@ -29,7 +29,6 @@ class DashboardController extends Controller
         $model = $request->input('model');
         $fields = $this->getFieldsByModel($model);
 
-        // Формируем массив полей с переводами и без переводов
         $translatedFields = [];
         foreach ($fields as $field) {
             $translatedFields[] = [
@@ -147,19 +146,25 @@ class DashboardController extends Controller
             $beta = 0.5;
         }
 
-        $forecastData = [];
-        $prev = $data[0];
+        // Начальные значения уровня и тренда
+        $level = $data[0];
+        $trend = $data[1] - $data[0];
 
+        $forecastData = [];
+
+        // Прогнозирование с использованием исторических данных
         foreach ($data as $value) {
-            $forecast = $alpha * $value + $beta * (1 - $alpha) * $prev;
-            $forecastData[] = round($forecast, 2);
-            $prev = $forecast;
+            $prev_level = $level;
+            $level = $alpha * $value + (1 - $alpha) * ($level + $trend);
+            $trend = $beta * ($level - $prev_level) + (1 - $beta) * $trend;
+            $forecastData[] = round($level + $trend, 2);
         }
 
+        // Прогнозирование будущих значений
+        $last_level = end($forecastData);
         for ($i = 0; $i < $depth; $i++) {
-            $forecast = $alpha * end($data) + $beta * (1 - $alpha) * $prev;
+            $forecast = $last_level + ($i + 1) * $trend;
             $forecastData[] = round($forecast, 2);
-            $prev = $forecast;
         }
 
         return $forecastData;
