@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use App\Models\Station;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +25,7 @@ class ProfileController extends Controller
 
         return view('profile.edit', [
             'user' => $user,
-            'userRoles' => $user->roles,
+            'userRoles' => $user->roles, // Используйте метод roles из трейта
             'userStation' => $userStation,
             'isAdmin' => $user->hasRole('admin'),
         ], compact('stations', 'roles'));
@@ -47,7 +46,8 @@ class ProfileController extends Controller
         $user->save();
 
         $roles = $request->input('roles', []); // Получаем выбранные роли из запроса
-        $user->roles()->sync($roles); // Назначаем выбранные роли пользователю
+        $roleNames = Role::whereIn('id', $roles)->pluck('name')->toArray(); // Преобразуем идентификаторы ролей в имена
+        $user->syncRoles($roleNames); // Назначаем выбранные роли пользователю
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
