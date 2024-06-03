@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use App\Models\Spendings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,17 +38,20 @@ class SpendingsController extends Controller
 
         $spending = new Spendings($request->all());
         $spending->user_id = Auth::id();
-        $spending->user_station_id = Auth::user()->station_id; // Assuming user has a station_id
+        $spending->user_station_id = Auth::user()->station_id;
 
         $spending->save();
 
+        // Логирование создания
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create',
+            'table_name' => 'spendings',
+            'new_data' => $spending->toJson()
+        ]);
+
         return redirect()->route('spendings.index')
             ->with('success', 'Spending created successfully.');
-    }
-
-    public function edit(Spendings $spending)
-    {
-        return view('spendings.edit', compact('spending'));
     }
 
     public function update(Request $request, Spendings $spending)
@@ -62,8 +66,17 @@ class SpendingsController extends Controller
             'odorant.numeric' => 'Поле :attribute повинне бути числовим.',
         ]);
 
-
+        $oldData = $spending->toJson();
         $spending->update($request->all());
+
+        // Логирование обновления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'table_name' => 'spendings',
+            'old_data' => $oldData,
+            'new_data' => $spending->toJson()
+        ]);
 
         return redirect()->route('spendings.index')
             ->with('success', 'Spending updated successfully');
@@ -71,9 +84,23 @@ class SpendingsController extends Controller
 
     public function destroy(Spendings $spending)
     {
+        $oldData = $spending->toJson();
         $spending->delete();
+
+        // Логирование удаления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete',
+            'table_name' => 'spendings',
+            'old_data' => $oldData
+        ]);
 
         return redirect()->route('spendings.index')
             ->with('success', 'Spending deleted successfully');
+    }
+
+    public function edit(Spendings $spending)
+    {
+        return view('spendings.edit', compact('spending'));
     }
 }

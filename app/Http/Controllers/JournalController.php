@@ -6,6 +6,7 @@ use App\Models\Journal;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AuditLog;
 
 class JournalController extends Controller
 {
@@ -61,7 +62,6 @@ class JournalController extends Controller
             "gas_heater_temperature_out.numeric" => "Поле ℃ вих. ПГ повинне бути числовим.",
         ]);
 
-
         $journal = new Journal();
         $journal->pressure_in = $request->input('pressure_in');
         $journal->pressure_out_1 = $request->input('pressure_out_1');
@@ -75,6 +75,14 @@ class JournalController extends Controller
         $journal->user_id = Auth::id();
         $journal->user_station_id = Auth::user()->station_id;
         $journal->save();
+
+        // Логирование создания
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create',
+            'table_name' => 'journal',
+            'new_data' => $journal->toJson()
+        ]);
 
         return redirect()->route('journals.index')->with('success', 'Запис створено!');
     }
@@ -112,6 +120,8 @@ class JournalController extends Controller
             "gas_heater_temperature_out.numeric" => "Поле ℃ вих. ПГ повинне бути числовим.",
         ]);
 
+        $oldData = $journal->toJson();
+
         $journal->pressure_in = $request->input('pressure_in');
         $journal->pressure_out_1 = $request->input('pressure_out_1');
         $journal->pressure_out_2 = $request->input('pressure_out_2');
@@ -125,12 +135,30 @@ class JournalController extends Controller
         $journal->user_station_id = Auth::user()->station_id;
         $journal->save();
 
+        // Логирование обновления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'table_name' => 'journal',
+            'old_data' => $oldData,
+            'new_data' => $journal->toJson()
+        ]);
+
         return redirect()->route('journals.index')->with('success', 'Запис оновлено!');
     }
 
     public function destroy(Journal $journal)
     {
+        $oldData = $journal->toJson();
         $journal->delete();
+
+        // Логирование удаления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete',
+            'table_name' => 'journal',
+            'old_data' => $oldData
+        ]);
 
         return redirect()->route('journals.index')->with('success', 'Запис видалено!');
     }

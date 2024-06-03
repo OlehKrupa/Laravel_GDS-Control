@@ -1,4 +1,3 @@
-{{-- resources/views/admin/logs.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -34,6 +33,10 @@
                                 </th>
                                 <th scope="col"
                                     class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {{ __('Table') }}
+                                </th>
+                                <th scope="col"
+                                    class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     {{ __('Changes') }}
                                 </th>
                                 <th scope="col"
@@ -49,10 +52,11 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($logs as $index => $log)
-                                <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
+                                <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' :'bg-white' }}">
                                     <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $log->id }}</td>
                                     <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $log->user->name }}</td>
                                     <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $log->action }}</td>
+                                    <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $log->table_name }}</td>
                                     <td class="px-3 py-2 whitespace-nowrap border border-gray-200">
                                         @php
                                             $oldData = json_decode($log->old_data, true);
@@ -63,19 +67,25 @@
                                                 $changes = array_diff_assoc($newData, $oldData);
                                             @endphp
                                             @foreach ($changes as $field => $newValue)
-                                                <p><strong>{{ $field }}:</strong> {{ $oldData[$field] ?? 'null' }}
-                                                    -> {{ $newValue }}</p>
+                                                @if (is_array($newValue))
+                                                    <p><strong>{{ $field }}:</strong> {{ implode(', ', $newValue) }}</p>
+                                                @elseif ($field === 'updated_at')
+                                                    <p><strong>{{ $field }}:</strong> {{ \Carbon\Carbon::parse($newValue)->format('Y-m-d H:i:s') }}</p>
+                                                @else
+                                                    <p><strong>{{ $field }}:</strong> {{ $oldData[$field]?? 'null' }} -> {{ $newValue }}</p>
+                                                @endif
                                             @endforeach
-                                        @elseif($oldData && !$newData)
+                                        @elseif($oldData &&!$newData)
                                             <p><strong>{{ __('Deleted') }}</strong></p>
                                         @else
                                             <p><strong>{{ __('No changes') }}</strong></p>
                                         @endif
                                     </td>
+
                                     <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $log->created_at }}</td>
                                     <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
-                                        <form action="{{ route('admin.undo', $log->id) }}" method="POST"
-                                              style="display: inline;">
+                                        <form action="{{ url('admin/undo',[$log->table_name, $log->id]) }}"
+                                              method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"

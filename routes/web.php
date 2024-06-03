@@ -17,7 +17,7 @@ Route::view('/', 'welcome');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/logs', [AdminController::class, 'index'])->name('admin.logs');
-    Route::delete('/admin/undo/{log}', [AdminController::class, 'undo'])->name('admin.undo');
+    Route::delete('/admin/undo/{model}/{log}', [AdminController::class, 'undo'])->name('admin.undo');
     Route::delete('/admin/delete/{log}', [AdminController::class, 'delete'])->name('admin.delete');
 });
 

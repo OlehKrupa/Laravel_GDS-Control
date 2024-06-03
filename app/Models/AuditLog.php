@@ -10,7 +10,7 @@ class AuditLog extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'action', 'old_data', 'new_data'];
+    protected $fillable = ['user_id', 'action', 'old_data', 'new_data', 'table_name',];
 
     protected $table = 'audit_logs';
 
