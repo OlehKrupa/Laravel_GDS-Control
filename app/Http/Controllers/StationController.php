@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Station;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -12,8 +14,8 @@ class StationController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->get('sort', 'label'); // По умолчанию сортировка по 'label'
-        $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $sort = $request->get('sort', 'label');
+        $direction = $request->get('direction', 'asc');
 
         $stations = Station::orderBy($sort, $direction)->paginate(8);
 
@@ -28,18 +30,25 @@ class StationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'label' => 'required',
-        'city' => 'required',
-        'region' => 'required',
-        'type' => 'required',
-    ], [
-        'label.required' => 'Поле мітка є обов\'язковим.',
-        'city.required' => 'Поле місто є обов\'язковим.',
-        'region.required' => 'Поле регіон є обов\'язковим.',
-        'type.required' => 'Поле тип є обов\'язковим.',
-    ]);
+            'label' => 'required',
+            'city' => 'required',
+            'region' => 'required',
+            'type' => 'required',
+        ], [
+            'label.required' => 'Поле мітка є обов\'язковим.',
+            'city.required' => 'Поле місто є обов\'язковим.',
+            'region.required' => 'Поле регіон є обов\'язковим.',
+            'type.required' => 'Поле тип є обов\'язковим.',
+        ]);
 
-        Station::create($request->all());
+        $station = Station::create($request->all());
+
+        // Логирование создания
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create',
+            'new_data' => $station->toJson()
+        ]);
 
         return redirect()->route('stations.index')
             ->with('success', 'Station created successfully.');
@@ -64,7 +73,16 @@ class StationController extends Controller
             'type.required' => 'Поле тип є обов\'язковим.',
         ]);
 
+        $oldData = $station->toJson();
         $station->update($request->all());
+
+        // Логирование обновления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'old_data' => $oldData,
+            'new_data' => $station->toJson()
+        ]);
 
         return redirect()->route('stations.index')
             ->with('success', 'Station updated successfully');
@@ -72,7 +90,15 @@ class StationController extends Controller
 
     public function destroy(Station $station)
     {
+        $oldData = $station->toJson();
         $station->delete();
+
+        // Логирование удаления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete',
+            'old_data' => $oldData
+        ]);
 
         return redirect()->route('stations.index')
             ->with('success', 'Station deleted successfully');
@@ -136,14 +162,11 @@ class StationController extends Controller
 
         $writer = new Xlsx($spreadsheet);
 
-        // Сохранение файла во временное место
         $tempFile = tempnam(sys_get_temp_dir(), $fileName);
         $writer->save($tempFile);
 
-        // Чтение содержимого файла
         $fileContent = file_get_contents($tempFile);
 
-        // Удаление временного файла
         unlink($tempFile);
 
         $response = response($fileContent, 200);
