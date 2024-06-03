@@ -87,6 +87,16 @@
 
 
                     <div id="chart" style="width: 100%; height: 400px;"></div>
+
+                    @can('logs')
+                        <div class="bg-orange-100 p-4 rounded-md mt-4">
+                            <h3 class="text-lg font-bold">{{ __('Admin Section') }}</h3>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <a href="{{ route('admin.logs') }}">{{ __('Logging') }}</a>
+                            </button>
+                        </div>
+                    @endcan
+
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script src="https://code.highcharts.com/highcharts.js"></script>
                     <script src="https://code.highcharts.com/modules/exporting.js"></script>

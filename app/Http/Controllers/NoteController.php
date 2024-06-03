@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AuditLog;
 
 class NoteController extends Controller
 {
@@ -41,6 +42,14 @@ class NoteController extends Controller
         $note->user_station_id = Auth::user()->station_id;
         $note->save();
 
+        // Логирование создания
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create',
+            'table_name' => 'notes',
+            'new_data' => $note->toJson()
+        ]);
+
         return redirect()->route('notes.index')->with('success', 'Note created successfully!');
     }
 
@@ -61,6 +70,8 @@ class NoteController extends Controller
             'required_without' => __('one_field_required'),
         ]);
 
+        $oldData = $note->toJson();
+
         $note->operational_switching = $request->input('operational_switching');
         $note->received_orders = $request->input('received_orders');
         $note->completed_works = $request->input('completed_works');
@@ -70,12 +81,30 @@ class NoteController extends Controller
         $note->user_station_id = Auth::user()->station_id;
         $note->save();
 
+        // Логирование обновления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'table_name' => 'notes',
+            'old_data' => $oldData,
+            'new_data' => $note->toJson()
+        ]);
+
         return redirect()->route('notes.index')->with('success', 'Note updated successfully!');
     }
 
     public function destroy(Notes $note)
     {
+        $oldData = $note->toJson();
         $note->delete();
+
+        // Логирование удаления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete',
+            'table_name' => 'notes',
+            'old_data' => $oldData
+        ]);
 
         return redirect()->route('notes.index')->with('success', 'Note deleted successfully!');
     }

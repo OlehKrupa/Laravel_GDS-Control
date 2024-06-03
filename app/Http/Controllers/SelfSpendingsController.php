@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\SelfSpendings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\AuditLog;
 
 class SelfSpendingsController extends Controller
 {
@@ -45,6 +47,14 @@ class SelfSpendingsController extends Controller
         $selfSpending->user_station_id = auth()->user()->station_id;
         $selfSpending->save();
 
+        // Логирование создания
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create',
+            'table_name' => 'self_spendings',
+            'new_data' => $selfSpending->toJson()
+        ]);
+
         return redirect()->route('selfSpendings.index')
             ->with('success', 'Self Spending created successfully.');
     }
@@ -72,7 +82,17 @@ class SelfSpendingsController extends Controller
             "boiler_gas.numeric" => "Поле :attribute повинне бути числовим.",
         ]);
 
+        $oldData = $selfSpending->toJson();
         $selfSpending->update($request->all());
+
+        // Логирование обновления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update',
+            'table_name' => 'self_spendings',
+            'old_data' => $oldData,
+            'new_data' => $selfSpending->toJson()
+        ]);
 
         return redirect()->route('selfSpendings.index')
             ->with('success', 'Self Spending updated successfully.');
@@ -80,7 +100,16 @@ class SelfSpendingsController extends Controller
 
     public function destroy(SelfSpendings $selfSpending)
     {
+        $oldData = $selfSpending->toJson();
         $selfSpending->delete();
+
+        // Логирование удаления
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete',
+            'table_name' => 'self_spendings',
+            'old_data' => $oldData
+        ]);
 
         return redirect()->route('selfSpendings.index')
             ->with('success', 'Self Spending deleted successfully.');

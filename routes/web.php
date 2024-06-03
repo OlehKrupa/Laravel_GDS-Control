@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteController;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 
 // Welcome route
 Route::view('/', 'welcome');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/admin/logs', [AdminController::class, 'index'])->name('admin.logs');
+    Route::delete('/admin/undo/{model}/{log}', [AdminController::class, 'undo'])->name('admin.undo');
+    Route::delete('/admin/delete/{log}', [AdminController::class, 'delete'])->name('admin.delete');
+});
 
 // Dashboard and other authenticated user routes
 Route::middleware(['auth', 'verified'])->group(function () {
