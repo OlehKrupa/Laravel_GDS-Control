@@ -44,34 +44,48 @@
         </div>
 
         <!-- Station -->
-        <div>
-            <x-input-label for="station_id" :value="__('Station')"/>
-            <select id="station_id" name="station_id" class="block mt-1 w-full"
-                    required>
-                <option
-                    value="{{ $userStation->id }}" {{ $isAdmin ? 'selected' : '' }}>{{ $userStation->label }}
-                    , {{ $userStation->city }}</option>
-                @foreach($stations as $station)
-                    <option value="{{ $station->id }}">{{ $station->label }}, {{ $station->city }}</option>
-                @endforeach
-            </select>
-            <x-input-error :messages="$errors->get('station_id')" class="mt-2"/>
-        </div>
+        @can('edit user station')
+            <div>
+                <x-input-label for="station_id" :value="__('Station')"/>
+                <select id="station_id" name="station_id" class="block mt-1 w-full" required>
+                    @foreach($stations as $station)
+                        <option value="{{ $station->id }}" {{ $station->id == $userStation->id ? 'selected' : '' }}>
+                            {{ $station->label }}, {{ $station->city }}
+                        </option>
+                    @endforeach
+                </select>
+                <x-input-error :messages="$errors->get('station_id')" class="mt-2"/>
+            </div>
+        @else
+            <div>
+                <x-input-label for="station" :value="__('Station')"/>
+                <x-text-input id="station" name="station" type="text" class="mt-1 block w-full"
+                              :value="$userStation->label . ', ' . $userStation->city" disabled/>
+            </div>
+        @endcan
 
         <!-- Roles -->
-        <div>
-            <x-input-label for="roles" :value="__('Roles')"/>
-            <div class="mt-2 space-y-2">
-                @foreach($roles as $role)
-                    <div>
-                        <input type="checkbox" id="role_{{ $role->id }}" name="roles[]"
-                               value="{{ $role->id }}" {{ in_array($role->id, $userRoles->pluck('id')->toArray()) ? 'checked' : '' }}>
-                        <label for="role_{{ $role->id }}">{{ __($role->name) }}</label>
-                    </div>
-                @endforeach
+        @can('edit roles')
+            <div>
+                <x-input-label for="roles" :value="__('Roles')"/>
+                <div class="mt-2 space-y-2">
+                    @foreach($roles as $role)
+                        <div>
+                            <input type="checkbox" id="role_{{ $role->id }}" name="roles[]"
+                                   value="{{ $role->id }}" {{ in_array($role->id, $userRoles->pluck('id')->toArray()) ? 'checked' : '' }}>
+                            <label for="role_{{ $role->id }}">{{ __($role->name) }}</label>
+                        </div>
+                    @endforeach
+                </div>
+                <x-input-error :messages="$errors->get('roles')" class="mt-2"/>
             </div>
-            <x-input-error :messages="$errors->get('roles')" class="mt-2"/>
-        </div>
+        @else
+            <div>
+                <x-input-label for="roles" :value="__('Roles')"/>
+                <x-text-input id="roles" name="roles" type="text" class="mt-1 block w-full"
+                              :value="$userRoles->pluck('name')->map(fn($name) => __($name))->implode(', ')" disabled/>
+            </div>
+        @endcan
 
         <div>
             <x-input-label for="email" :value="__('Email')"/>

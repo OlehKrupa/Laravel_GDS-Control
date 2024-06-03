@@ -25,7 +25,7 @@ class ProfileController extends Controller
 
         return view('profile.edit', [
             'user' => $user,
-            'userRoles' => $user->roles, // Используйте метод roles из трейта
+            'userRoles' => $user->roles,
             'userStation' => $userStation,
             'isAdmin' => $user->hasRole('admin'),
         ], compact('stations', 'roles'));
@@ -43,14 +43,31 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-        $user->save();
+        // Проверка прав на редактирование станции
+        if ($request->user()->can('edit user station')) {
+            $user->station_id = $request->input('station_id');
+        }
 
-        $roles = $request->input('roles', []); // Получаем выбранные роли из запроса
-        $roleNames = Role::whereIn('id', $roles)->pluck('name')->toArray(); // Преобразуем идентификаторы ролей в имена
-        $user->syncRoles($roleNames); // Назначаем выбранные роли пользователю
+        // Проверка прав на редактирование ролей
+        if ($request->user()->can('edit roles')) {
+            $roles = $request->input('roles', []);
+            $roleNames = Role::whereIn('id', $roles)->pluck('name')->toArray();
+
+            // Проверяем, есть ли у пользователя роль администратора
+            if ($user->hasRole('ADMIN')) {
+                if (!in_array('ADMIN', $roleNames)) {
+                    $roleNames[] = 'ADMIN';
+                }
+            }
+
+            $user->syncRoles($roleNames);
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     /**
      * Delete the user's account.
