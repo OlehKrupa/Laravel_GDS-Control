@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 // Welcome route
 Route::view('/', 'welcome');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/logs', [AdminController::class, 'index'])->name('admin.logs');
     Route::delete('/admin/undo/{model}/{log}', [AdminController::class, 'undo'])->name('admin.undo');
     Route::delete('/admin/delete/{log}', [AdminController::class, 'delete'])->name('admin.delete');

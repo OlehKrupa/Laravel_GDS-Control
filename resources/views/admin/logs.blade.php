@@ -112,6 +112,12 @@
                     <div class="mt-4">
                         {{ $logs->links() }}
                     </div>
+
+                        <div class="flex justify-start mb-4">
+                            <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                                {{ __('Return to Dashboard') }}
+                            </a>
+                        </div>
                 </div>
             </div>
         </div>
