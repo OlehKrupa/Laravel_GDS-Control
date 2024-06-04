@@ -3,16 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notes;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AuditLog;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $notes = Notes::latest()->paginate(10);
-        return view('notes.index', compact('notes'));
+        $sort = $request->get('sort', 'created_at'); // По умолчанию сортировка по 'created_at'
+        $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
+
+        $query = Notes::orderBy($sort, $direction);
+
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        // Применяем фильтр по дате
+        $notes = $query->where('created_at', '>=', now()->subDays($days))->paginate(10);
+
+        $stations = Station::all(); // Получаем все станции
+
+        return view('notes.index', compact('notes', 'sort', 'direction', 'stations'));
     }
 
     public function create()

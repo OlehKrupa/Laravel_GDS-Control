@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\Notes;
 use App\Models\Spendings;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +15,21 @@ class SpendingsController extends Controller
     {
         $sort = $request->get('sort', 'created_at'); // По умолчанию сортировка по 'created_at'
         $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
 
-        $spendings = Spendings::orderBy($sort, $direction)->paginate(8);
+        $query = Spendings::orderBy($sort, $direction);
 
-        return view('spendings.index', compact('spendings'));
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        // Применяем фильтр по дате
+        $spendings = $query->where('created_at', '>=', now()->subDays($days))->paginate(10);
+
+        $stations = Station::all();
+
+        return view('spendings.index', compact('spendings', 'sort', 'direction', 'stations'));
     }
 
     public function create()

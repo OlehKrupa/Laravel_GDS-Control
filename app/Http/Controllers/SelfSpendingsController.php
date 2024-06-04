@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SelfSpendings;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AuditLog;
@@ -11,12 +12,23 @@ class SelfSpendingsController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->get('sort', 'heater_time'); // По умолчанию сортировка по 'heater_time'
+        $sort = $request->get('sort', 'created_at'); // По умолчанию сортировка по 'created_at'
         $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
 
-        $selfSpendings = SelfSpendings::orderBy($sort, $direction)->paginate(8);
+        $query = SelfSpendings::orderBy($sort, $direction);
 
-        return view('selfSpendings.index', compact('selfSpendings'));
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        // Применяем фильтр по дате
+        $selfSpendings = $query->where('created_at', '>=', now()->subDays($days))->paginate(10);
+
+        $stations = Station::all();
+
+        return view('selfSpendings.index', compact('selfSpendings', 'sort', 'direction', 'stations'));
     }
 
     public function create()

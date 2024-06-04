@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Station;
 use Illuminate\Http\Request;
 use App\Models\Gassiness;
 use Illuminate\Support\Facades\Auth;
@@ -12,11 +13,23 @@ class GassinessController extends Controller
     {
         $sort = $request->get('sort', 'MPR'); // По умолчанию сортировка по 'MPR'
         $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
 
-        $gassinesses = Gassiness::orderBy($sort, $direction)->paginate(8);
+        $query = Gassiness::orderBy($sort, $direction);
 
-        return view('gassiness.index', compact('gassinesses', 'sort', 'direction'));
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        // Применяем фильтр по дате
+        $gassinesses = $query->where('created_at', '>=', now()->subDays($days))->paginate(8);
+
+        $stations = Station::all(); // Получаем все станции
+
+        return view('gassiness.index', compact('gassinesses', 'sort', 'direction', 'stations'));
     }
+
     public function create()
     {
         return view('gassiness.create');
