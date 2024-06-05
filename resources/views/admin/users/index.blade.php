@@ -24,14 +24,14 @@
                         {{ __('View Trashed Users') }}
                     </a>
 
-                    <!-- Форма фильтрации по станции -->
+                    <!-- Filter form by station -->
                     <form action="{{ route('admin.users.index') }}" method="GET">
                         <input type="hidden" name="sort" value="{{ request('sort', 'name') }}">
                         <input type="hidden" name="direction" value="{{ request('direction', 'asc') }}">
 
                         <div class="flex items-center mb-4">
                             <label for="station"
-                                   class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Станція</label>
+                                   class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">{{ __('Station') }}</label>
                             <select id="station" name="station_id"
                                     class="block w-64 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
                                     onchange="this.form.submit()">
