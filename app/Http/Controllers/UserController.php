@@ -101,9 +101,19 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      */
-    public function update(ProfileUpdateRequest $request, User $user): RedirectResponse
+    public function update(Request $request, User $user): RedirectResponse
     {
-        $user->fill($request->validated());
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'patronymic' => ['required', 'string', 'max:255'],
+            'station_id' => ['required', 'exists:station,id'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'roles' => ['required', 'array'],
+            'roles.*' => ['integer', 'exists:roles,id'],
+        ]);
+
+        $user->fill($request->except('roles'));
 
         if ($request->input('email') !== $user->email) {
             $user->email_verified_at = null;
@@ -128,8 +138,9 @@ class UserController extends Controller
 
         $user->save();
 
-        return Redirect::route('admin.users.edit', $user)->with('status', 'profile-updated');
+        return Redirect::route('admin.users.index', $user)->with('status', 'profile-updated');
     }
+
 
     /**
      * Remove the specified user from storage.
