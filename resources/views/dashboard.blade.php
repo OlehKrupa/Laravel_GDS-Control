@@ -94,6 +94,9 @@
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 <a href="{{ route('admin.logs') }}">{{ __('Logging') }}</a>
                             </button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <a href="{{ route('admin.users.index') }}">{{ __('Учет пользователей') }}</a>
+                            </button>
                         </div>
                     @endcan
 

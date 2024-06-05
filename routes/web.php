@@ -11,9 +11,19 @@ use App\Http\Controllers\SpendingsController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\GassinessController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 // Welcome route
 Route::view('/', 'welcome');
+
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('users', UserController::class)->except(['show']);
+
+    // Route for soft deleted users
+    Route::get('users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+    Route::post('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::delete('users/{id}/forceDelete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/logs', [AdminController::class, 'index'])->name('admin.logs');
