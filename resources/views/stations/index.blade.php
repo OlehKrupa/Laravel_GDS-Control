@@ -52,7 +52,7 @@
                                            class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                             {{ __('Edit') }}
                                         </a>
-                                        <form action="{{ route('stations.destroy', $station->id) }}" method="POST"
+                                        <form action="{{ route('stations.destroy', $station->id) }}" method="POST" onsubmit="return confirmDelete();"
                                               style="display: inline;">
                                             @csrf
                                             @method('DELETE')
@@ -102,4 +102,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete() {
+            return confirm('Ви впевнені у видаленні?');
+        }
+    </script>
 </x-app-layout>

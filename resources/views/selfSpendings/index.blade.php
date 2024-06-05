@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Self spendings') }}
+            {{ __('Self Spendings') }}
         </h2>
     </x-slot>
 
@@ -84,19 +84,22 @@
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->boiler_gas }}</td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
-                                        <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
-                                           class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            {{ __('Edit') }}
-                                        </a>
-                                        <form action="{{ route('selfSpendings.destroy', $selfSpending->id) }}"
-                                              method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form>
+                                        @if ($selfSpending->created_at->gt(now()->subDays(3)))
+                                            <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
+                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                {{ __('Edit') }}
+                                            </a>
+                                            <form action="{{ route('selfSpendings.destroy', $selfSpending->id) }}"
+                                                  method="POST" style="display: inline;"
+                                                  onsubmit="return confirmDelete();">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                    {{ __('Delete') }}
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -118,4 +121,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Ви впевнені у видаленні?');
+        }
+    </script>
 </x-app-layout>

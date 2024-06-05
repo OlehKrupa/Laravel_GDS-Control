@@ -99,19 +99,22 @@
                                 </td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
-                                        <a href="{{ route('gassiness.edit', $gassiness->id) }}"
-                                           class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            {{ __('Edit') }}
-                                        </a>
-                                        <form action="{{ route('gassiness.destroy', $gassiness->id) }}" method="POST"
-                                              style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form>
+                                        @if ($gassiness->created_at->gt(now()->subDays(3)))
+                                            <a href="{{ route('gassiness.edit', $gassiness->id) }}"
+                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                {{ __('Edit') }}
+                                            </a>
+                                            <form action="{{ route('gassiness.destroy', $gassiness->id) }}"
+                                                  method="POST" onsubmit="return confirmDelete();"
+                                                  style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                    {{ __('Delete') }}
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -131,4 +134,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete() {
+            return confirm('Ви впевнені у видаленні?');
+        }
+    </script>
 </x-app-layout>

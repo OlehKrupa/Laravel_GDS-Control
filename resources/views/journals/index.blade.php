@@ -75,6 +75,11 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($journals as $index => $journal)
+                            @php
+                                $created_at = \Carbon\Carbon::parse($journal->created_at);
+                                $current_date = \Carbon\Carbon::now();
+                                $diff_in_days = $created_at->diffInDays($current_date);
+                            @endphp
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->pressure_in }}</td>
@@ -87,21 +92,23 @@
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->gas_heater_temperature_in }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $journal->gas_heater_temperature_out }}</td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
-                                    <div class="inline-flex">
-                                        <a href="{{ route('journals.edit', $journal->id) }}"
-                                           class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            {{ __('Edit') }}
-                                        </a>
-                                        <form action="{{ route('journals.destroy', $journal->id) }}" method="POST"
-                                              style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form>
-                                    </div>
+                                    @if ($diff_in_days <= 3)
+                                        <div class="inline-flex">
+                                            <a href="{{ route('journals.edit', $journal->id) }}"
+                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                {{ __('Edit') }}
+                                            </a>
+                                            <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" onsubmit="return confirmDelete();"
+                                                  style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                    {{ __('Delete') }}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -122,4 +129,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete() {
+            return confirm('Ви впевнені у видаленні?');
+        }
+    </script>
 </x-app-layout>

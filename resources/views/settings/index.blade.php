@@ -33,11 +33,11 @@
                                     <input type="number" step="0.01" name="value" id="value_{{ $setting->id }}" class="w-64 pl-2 py-2 border border-gray-300 rounded-r-md" value="{{ $setting->value }}">
                                     <button type="submit" class="ml-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700">{{ __('Update') }}</button>
                                 </form>
-                                <form id="delete-{{ $setting->id }}" method="POST" action="{{ route('settings.destroy', $setting->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onclick="return confirm('{{ __('Are you sure you want to delete this setting?') }}')">{{ __('Delete') }}</button>
-                                </form>
+{{--                                <form id="delete-{{ $setting->id }}" method="POST" action="{{ route('settings.destroy', $setting->id) }}">--}}
+{{--                                    @csrf--}}
+{{--                                    @method('DELETE')--}}
+{{--                                    <button type="submit" class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onclick="return confirm('{{ __('Are you sure you want to delete this setting?') }}')">{{ __('Delete') }}</button>--}}
+{{--                                </form>--}}
                             </div>
                         @endforeach
                     </div>
