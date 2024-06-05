@@ -53,17 +53,18 @@
                         <!-- Roles -->
                         <div class="mb-4">
                             <x-input-label for="roles" :value="__('Roles')"/>
-                            <div class="mt-2 space-y-2">
+                            <div class="mt-2 space-x-2">
                                 @foreach($roles as $role)
-                                    <div>
+                                    <div class="inline-flex items-center">
                                         <input type="checkbox" id="role_{{ $role->id }}" name="roles[]"
-                                               value="{{ $role->id }}">
+                                               value="{{ $role->id }}" class="mr-1">
                                         <label for="role_{{ $role->id }}">{{ $role->name }}</label>
                                     </div>
                                 @endforeach
                             </div>
                             <x-input-error :messages="$errors->get('roles')" class="mt-2"/>
                         </div>
+
 
                         <!-- Email Address -->
                         <div class="mt-4">

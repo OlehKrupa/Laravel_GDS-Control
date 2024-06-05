@@ -22,6 +22,10 @@ class UserController extends Controller
     {
         $query = User::with('station', 'roles');
 
+        if ($request->input('station_id')) {
+            $query->where('station_id', $request->input('station_id'));
+        }
+
         if ($request->has('sort')) {
             $sort = $request->input('sort');
             $direction = $request->input('direction', 'asc');
@@ -29,9 +33,11 @@ class UserController extends Controller
         }
 
         $users = $query->paginate(10);
+        $stations = Station::all();
 
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users', 'stations'));
     }
+
 
     /**
      * Display the registration view.

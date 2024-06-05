@@ -23,7 +23,7 @@
                             </select>
 
                             <label for="station" class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center ml-4">Станція</label>
-                            <select id="station" name="user_station_id" class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base" onchange="document.getElementById('days-form').submit()">
+                            <select id="station" name="user_station_id" class="block w-64 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base" onchange="document.getElementById('days-form').submit()">
                                 <option value="">Всі станції</option>
                                 @foreach ($stations as $station)
                                     <option value="{{ $station->id }}" {{ request('user_station_id') == $station->id ? 'selected' : '' }}>{{ $station->label }}</option>
