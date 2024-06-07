@@ -91,6 +91,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Journal routes
     Route::resource('journals', JournalController::class);
 
+    Route::post('/journals/generate-report', [JournalController::class, 'generateReport'])->name('journals.generateReport');
+
 });
 
 require __DIR__ . '/auth.php';

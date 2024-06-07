@@ -86,7 +86,8 @@
                                                class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                                 {{ __('Edit') }}
                                             </a>
-                                            <form action="{{ route('spendings.destroy', $spending->id) }}" method="POST" onsubmit="return confirmDelete();"
+                                            <form action="{{ route('spendings.destroy', $spending->id) }}" method="POST"
+                                                  onsubmit="return confirmDelete();"
                                                   style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
@@ -112,6 +113,26 @@
                             {{ __('Add Spending') }}
                         </a>
                     </div>
+
+                    @can('create reports')
+                        <form action="{{ route('station.generate.report') }}" method="post">
+                            <div class="flex items-center mb-4">
+                                @csrf
+                                <label
+                                    class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center"
+                                    for="report_type">{{__('select_report_type:')}}</label>
+                                <select
+                                    class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
+                                    id="report_type" name="report_type">
+                                    <option value="stations_by_city">{{__('stations_by_city')}}</option>
+                                    <option value="stations_by_region">{{__('stations_by_region')}}</option>
+                                    <option value="stations_by_type">{{__('stations_by_type')}}</option>
+                                </select>
+                                <button type="submit"
+                                        class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{__('Generate report')}}</button>
+                            </div>
+                        </form>
+                    @endcan
 
                 </div>
             </div>
