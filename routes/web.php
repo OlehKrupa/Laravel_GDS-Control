@@ -79,6 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 
     Route::resource('spendings', SpendingsController::class);
+    Route::post('spendings/report', [SpendingsController::class, 'generateReport'])->name('spendings.generateReport');
 
     Route::prefix('selfSpendings')->name('selfSpendings.')->group(function () {
         Route::get('/', [SelfSpendingsController::class, 'index'])->name('index');
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{selfSpending}', [SelfSpendingsController::class, 'edit'])->name('edit');
         Route::put('{selfSpending}', [SelfSpendingsController::class, 'update'])->name('update');
         Route::delete('{selfSpending}', [SelfSpendingsController::class, 'destroy'])->name('destroy');
+        Route::post('/report', [SelfSpendingsController::class, 'generateReport'])->name('generateReport');
     });
 
     // Journal routes

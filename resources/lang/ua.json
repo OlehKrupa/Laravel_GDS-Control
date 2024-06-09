@@ -203,5 +203,14 @@
     "for the last ": "за останні ",
     " days": " днів",
     "No problems with gassiness at ": "Немає проблем з загазованістю на ",
-    "All stations are fine with gassiness ": "Немає проблем з загазованістю на всіх станціях "
+    "All stations are fine with gassiness ": "Немає проблем з загазованістю на всіх станціях ",
+    "Average Gas": "Середня денна витрата газу",
+    "Average Odorant": "Середня денна витрата одоранту",
+    "Total Gas": "Загальна витрата газу",
+    "Total Odorant": "Загальна витрата одоранту",
+    "Expense Report": "Звіт по витратам",
+    "for the last :days days": "за останні :days днів",
+    "for station :station": "для :station",
+    "for all stations": "для всіх станцій",
+    "Self Spendings Report": "Звіт про власні витрати"
 }
