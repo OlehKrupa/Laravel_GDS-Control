@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{gassiness}/edit', [GassinessController::class, 'edit'])->name('edit');
         Route::put('{gassiness}', [GassinessController::class, 'update'])->name('update');
         Route::delete('{gassiness}', [GassinessController::class, 'destroy'])->name('destroy');
+        Route::post('/generate-report', [GassinessController::class, 'generateReport'])->name('generateReport');
     });
 
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
