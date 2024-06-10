@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
 
@@ -17,60 +17,73 @@
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('stations.index')" :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
-                        {{ __('Stations') }}
-                    </x-nav-link>
-                </div>
+                @can('crud stations')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('stations.index')"
+                                    :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
+                            {{ __('Stations') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
+                    <x-nav-link :href="route('journals.index')"
+                                :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
                         {{ __('Journal') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('spendings.index')" :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
+                    <x-nav-link :href="route('spendings.index')"
+                                :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
                         {{ __('Spendings') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('selfSpendings.index')" :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
+                    <x-nav-link :href="route('selfSpendings.index')"
+                                :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
                         {{ __('Self spendings') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('gassiness.index')" :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
+                    <x-nav-link :href="route('gassiness.index')"
+                                :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
                         {{ __('Gassiness') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
+                    <x-nav-link :href="route('notes.index')"
+                                :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
                         {{ __('Notes') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
-                        {{ __('Settings') }}
-                    </x-nav-link>
-                </div>
-
+                @can('settings')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
+                            {{ __('Settings') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }} {{Auth::user()->surname}} </div>
 
                             <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                          clip-rule="evenodd"/>
                                 </svg>
                             </div>
                         </button>
@@ -86,7 +99,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -97,10 +110,14 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
+                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
@@ -115,48 +132,57 @@
             </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('stations.index')" :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
-                {{ __('Stations') }}
-            </x-responsive-nav-link>
-        </div>
+        @can('crud stations')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('stations.index')"
+                                       :active="request()->routeIs('stations.index') || request()->routeIs('stations.edit') || request()->routeIs('stations.create')">
+                    {{ __('Stations') }}
+                </x-responsive-nav-link>
+            </div>
+        @endcan
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
+            <x-responsive-nav-link :href="route('journals.index')"
+                                   :active="request()->routeIs('journals.index') || request()->routeIs('journals.edit') || request()->routeIs('journals.create')">
                 {{ __('Journal') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('spendings.index')" :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
+            <x-responsive-nav-link :href="route('spendings.index')"
+                                   :active="request()->routeIs('spendings.index') || request()->routeIs('spendings.edit') || request()->routeIs('spendings.create')">
                 {{ __('Spendings') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('selfSpendings.index')" :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
+            <x-responsive-nav-link :href="route('selfSpendings.index')"
+                                   :active="request()->routeIs('selfSpendings.index') || request()->routeIs('selfSpendings.edit') || request()->routeIs('selfSpendings.create')">
                 {{ __('Self spendings') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('gassiness.index')" :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
+            <x-responsive-nav-link :href="route('gassiness.index')"
+                                   :active="request()->routeIs('gassiness.index') || request()->routeIs('gassiness.edit') || request()->routeIs('gassiness.create')">
                 {{ __('Gassiness') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
+            <x-responsive-nav-link :href="route('notes.index')"
+                                   :active="request()->routeIs('notes.index') || request()->routeIs('notes.edit') || request()->routeIs('notes.create')">
                 {{ __('Notes') }}
             </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
-                {{ __('Settings') }}
-            </x-responsive-nav-link>
-        </div>
-
+        @can('settings')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
+                    {{ __('Settings') }}
+                </x-responsive-nav-link>
+            </div>
+        @endcan
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -175,7 +201,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

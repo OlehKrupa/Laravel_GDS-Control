@@ -11,19 +11,22 @@
                 <div class="p-6 text-gray-900">
                     <form id="filterForm">
                         <div class="flex flex-wrap items-center mb-4">
-                            <div class="flex items-center mb-4 mr-4 md:w-auto w-full">
-                                <label
-                                    class="w-40 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md"
-                                    for="station">
-                                    {{ __('Station') }}
-                                </label>
-                                <select id="station" name="station_id"
-                                        class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
-                                    @foreach ($stations as $station)
-                                        <option value="{{ $station->id }}">{{ $station->label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            @can('use stations')
+                                <div class="flex items-center mb-4 mr-4 md:w-auto w-full">
+                                    <label
+                                        class="w-40 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md"
+                                        for="station">
+                                        {{ __('Station') }}
+                                    </label>
+                                    <select id="station" name="station_id"
+                                            class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
+                                        @foreach ($stations as $station)
+                                            <option value="{{ $station->id }}">{{ $station->label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endcan
+
                             <div class="flex items-center mb-4 mr-4 md:w-auto w-full">
                                 <label
                                     class="w-20 text-lg font-semibold text-gray-800 bg-gray-200 py-2 px-4 rounded-l-md"

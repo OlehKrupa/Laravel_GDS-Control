@@ -77,6 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
     Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+    Route::post('/notes/report', [NoteController::class, 'generateReport'])->name('notes.generateReport');
 
     Route::resource('spendings', SpendingsController::class);
     Route::post('spendings/report', [SpendingsController::class, 'generateReport'])->name('spendings.generateReport');

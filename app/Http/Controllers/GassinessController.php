@@ -16,18 +16,22 @@ class GassinessController extends Controller
         $sort = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'asc');
         $days = $request->input('days', 1);
-        $userStationId = $request->input('user_station_id');
+        $user = Auth::user();
+        $query = Gassiness::where('created_at', '>=', now()->subDays($days));
 
-        $query = Gassiness::orderBy($sort, $direction);
-
-        if ($userStationId) {
-            $query->where('user_station_id', $userStationId);
+        if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
+            $query->where('user_station_id', $user->station_id);
+        } else {
+            $userStationId = $request->input('user_station_id');
+            if ($userStationId) {
+                $query->where('user_station_id', $userStationId);
+            }
         }
 
-        $gassinesses = $query->where('created_at', '>=', now()->subDays($days))->paginate(8);
+        $gassinesses = $query->orderBy($sort, $direction)->paginate(8);
         $stations = Station::all();
 
-        return view('gassiness.index', compact('gassinesses', 'sort', 'direction', 'stations'));
+        return view('gassiness.index', compact('gassinesses', 'stations'));
     }
 
     public function create()

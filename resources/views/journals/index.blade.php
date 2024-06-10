@@ -9,6 +9,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @if (session('success'))
+                        <div class="mb-4 text-green-600">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="mb-4 text-red-600">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form id="days-form" action="{{ route('journals.index') }}" method="GET">
                         <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
                         <input type="hidden" name="direction" value="{{ request('direction', 'desc') }}">
@@ -146,8 +161,10 @@
                             <input type="hidden" name="days" value="{{ request('days', 1) }}">
                             <input type="hidden" name="user_station_id" value="{{ request('user_station_id') }}">
                             <div class="flex items-center mb-4">
-                                <label for="parameter" class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Звіт:</label>
-                                <select id="parameter" name="parameter" class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
+                                <label for="parameter"
+                                       class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Звіт:</label>
+                                <select id="parameter" name="parameter"
+                                        class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
                                     <option value="all">Всі параметри</option>
                                     <option value="pressure_in">Тиск вхідний</option>
                                     <option value="pressure_out_1">Тиск вихідний 1</option>

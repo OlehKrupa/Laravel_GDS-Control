@@ -212,5 +212,7 @@
     "for the last :days days": "за останні :days днів",
     "for station :station": "для :station",
     "for all stations": "для всіх станцій",
-    "Self Spendings Report": "Звіт про власні витрати"
+    "Self Spendings Report": "Звіт про власні витрати",
+    "Add Gassiness": "Додати запис про загазованність",
+    "Notes Report":"Звіт по виконаним операціям"
 }
