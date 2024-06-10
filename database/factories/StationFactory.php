@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Station;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Station>
  */
 class StationFactory extends Factory
 {
@@ -16,11 +17,38 @@ class StationFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'label' => $this->faker->word,
-            'city' => $this->faker->city,
-            'region' => $this->faker->word,
-            'type' => $this->faker->randomElement(['type1', 'type2', 'type3']),
+        $cities = [
+            'Кременчук', 'Горішні Плавні', 'Світловодськ', 'Глобино', 'Козельщина', 'Кобеляки', 'Потоки', 'Павлиш'
         ];
+
+        $type = $this->faker->randomElement(['ГРС', 'ГРП', 'АГРС-м', 'ГРС-с', 'ГРС-в']);
+        $city = $this->faker->randomElement($cities);
+        $label = $type . ' ' . $city;
+
+        // Check for duplicates and add suffix if necessary
+        $suffix = 1;
+        while (Station::where('label', $label)->exists()) {
+            $label = $type . ' ' . $city . '-' . $suffix;
+            $suffix++;
+        }
+
+        return [
+            'label' => $label,
+            'city' => $city,
+            'region' => 'Кременчук',
+            'type' => $type,
+        ];
+    }
+
+    public function lvumgKremenchuk()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'label' => 'ЛВУМГ Кременчук',
+                'city' => 'Кременчук',
+                'region' => 'Кременчук',
+                'type' => 'ЛВУМГ',
+            ];
+        });
     }
 }

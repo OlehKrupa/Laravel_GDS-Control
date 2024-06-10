@@ -47,6 +47,7 @@ class StationController extends Controller
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'create',
+            'table_name' => 'station',
             'new_data' => $station->toJson()
         ]);
 
@@ -80,6 +81,7 @@ class StationController extends Controller
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'update',
+            'table_name' => 'station',
             'old_data' => $oldData,
             'new_data' => $station->toJson()
         ]);
@@ -97,6 +99,7 @@ class StationController extends Controller
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'delete',
+            'table_name' => 'station',
             'old_data' => $oldData
         ]);
 
