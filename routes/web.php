@@ -16,41 +16,27 @@ use App\Http\Controllers\UserController;
 // Welcome route
 Route::view('/', 'welcome');
 
-Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-    Route::resource('users', UserController::class)->except(['show']);
-
-    // Route for soft deleted users
-    Route::get('users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
-    Route::post('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::delete('users/{id}/forceDelete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
-});
+// Authentication routes
+require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin/logs', [AdminController::class, 'index'])->name('admin.logs');
-    Route::delete('/admin/undo/{model}/{log}', [AdminController::class, 'undo'])->name('admin.undo');
-    Route::delete('/admin/delete/{log}', [AdminController::class, 'delete'])->name('admin.delete');
-});
-
-// Dashboard and other authenticated user routes
-Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/get-fields', [DashboardController::class, 'getFields']);
     Route::get('/chart-data', [DashboardController::class, 'getChartData']);
     Route::get('/forecast-data', [DashboardController::class, 'getForecastData'])->name('forecast-data');
 
+    // Journal routes
     Route::view('/journal', 'journal')->name('journal');
+    Route::resource('journals', JournalController::class);
+    Route::post('/journals/generate-report', [JournalController::class, 'generateReport'])->name('journals.generateReport');
+
+    // Reports route
     Route::view('/reports', 'reports')->name('reports');
 
     // Stations resource
     Route::resource('stations', StationController::class);
     Route::post('stations/generate', [StationController::class, 'generate'])->name('station.generate.report');
-
-    // Settings routes
-    Route::prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', [SettingsController::class, 'index'])->name('index');
-        Route::put('{setting}', [SettingsController::class, 'update'])->name('update');
-        Route::delete('{setting}', [SettingsController::class, 'destroy'])->name('destroy');
-    });
 
     // Profile routes
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -71,17 +57,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/generate-report', [GassinessController::class, 'generateReport'])->name('generateReport');
     });
 
-    Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
-    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
-    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
-    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
-    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
-    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
-    Route::post('/notes/report', [NoteController::class, 'generateReport'])->name('notes.generateReport');
+    // Notes routes
+    Route::prefix('notes')->name('notes.')->group(function () {
+        Route::get('/', [NoteController::class, 'index'])->name('index');
+        Route::get('/create', [NoteController::class, 'create'])->name('create');
+        Route::post('/', [NoteController::class, 'store'])->name('store');
+        Route::get('{note}/edit', [NoteController::class, 'edit'])->name('edit');
+        Route::put('{note}', [NoteController::class, 'update'])->name('update');
+        Route::delete('{note}', [NoteController::class, 'destroy'])->name('destroy');
+        Route::post('/report', [NoteController::class, 'generateReport'])->name('generateReport');
+    });
 
+    // Spendings routes
     Route::resource('spendings', SpendingsController::class);
     Route::post('spendings/report', [SpendingsController::class, 'generateReport'])->name('spendings.generateReport');
 
+    // SelfSpendings routes
     Route::prefix('selfSpendings')->name('selfSpendings.')->group(function () {
         Route::get('/', [SelfSpendingsController::class, 'index'])->name('index');
         Route::get('/create', [SelfSpendingsController::class, 'create'])->name('create');
@@ -92,12 +83,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/report', [SelfSpendingsController::class, 'generateReport'])->name('generateReport');
     });
 
-    // Journal routes
-    Route::resource('journals', JournalController::class);
-
-    Route::post('/journals/generate-report', [JournalController::class, 'generateReport'])->name('journals.generateReport');
-
+    // Settings routes
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::get('/', [SettingsController::class, 'index'])->name('index');
+        Route::put('{setting}', [SettingsController::class, 'update'])->name('update');
+        Route::delete('{setting}', [SettingsController::class, 'destroy'])->name('destroy');
+    });
 });
 
-require __DIR__ . '/auth.php';
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+        Route::resource('users', UserController::class)->except(['show']);
 
+        // Route for soft deleted users
+        Route::get('users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+        Route::post('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
+        Route::delete('users/{id}/forceDelete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+
+        Route::get('/logs', [AdminController::class, 'index'])->name('logs');
+        Route::delete('/undo/{model}/{log}', [AdminController::class, 'undo'])->name('undo');
+        Route::delete('/delete/{log}', [AdminController::class, 'delete'])->name('delete');
+    });
+});

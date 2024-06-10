@@ -82,10 +82,12 @@
                             <option value="spline">Сплайн</option>
                         </select>
 
+                        @can('forecast')
                         <button id="forecastButton"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-4 py-2 px-4 rounded">
                             Зробити прогноз
                         </button>
+                        @endcan
                     </div>
 
 

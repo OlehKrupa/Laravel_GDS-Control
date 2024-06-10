@@ -35,10 +35,10 @@ class StationController extends Controller
             'region' => 'required',
             'type' => 'required',
         ], [
-            'label.required' => 'Поле мітка є обов\'язковим.',
-            'city.required' => 'Поле місто є обов\'язковим.',
-            'region.required' => 'Поле регіон є обов\'язковим.',
-            'type.required' => 'Поле тип є обов\'язковим.',
+            'label.required' => __('Поле мітка є обов\'язковим.'),
+            'city.required' => __('Поле місто є обов\'язковим.'),
+            'region.required' => __('Поле регіон є обов\'язковим.'),
+            'type.required' => __('Поле тип є обов\'язковим.'),
         ]);
 
         $station = Station::create($request->all());
@@ -51,7 +51,7 @@ class StationController extends Controller
         ]);
 
         return redirect()->route('stations.index')
-            ->with('success', 'Station created successfully.');
+            ->with('success', __('Station created successfully.'));
     }
 
     public function edit(Station $station)
@@ -67,10 +67,10 @@ class StationController extends Controller
             'region' => 'required',
             'type' => 'required',
         ], [
-            'label.required' => 'Поле мітка є обов\'язковим.',
-            'city.required' => 'Поле місто є обов\'язковим.',
-            'region.required' => 'Поле регіон є обов\'язковим.',
-            'type.required' => 'Поле тип є обов\'язковим.',
+            'label.required' => __('Поле мітка є обов\'язковим.'),
+            'city.required' => __('Поле місто є обов\'язковим.'),
+            'region.required' => __('Поле регіон є обов\'язковим.'),
+            'type.required' => __('Поле тип є обов\'язковим.'),
         ]);
 
         $oldData = $station->toJson();
@@ -85,7 +85,7 @@ class StationController extends Controller
         ]);
 
         return redirect()->route('stations.index')
-            ->with('success', 'Station updated successfully');
+            ->with('success', __('Station updated successfully'));
     }
 
     public function destroy(Station $station)
@@ -101,7 +101,7 @@ class StationController extends Controller
         ]);
 
         return redirect()->route('stations.index')
-            ->with('success', 'Station deleted successfully');
+            ->with('success', __('Station deleted successfully'));
     }
 
     public function generate(Request $request)
@@ -115,10 +115,11 @@ class StationController extends Controller
                     ->get();
                 $reportData = $stations->map(function ($station) {
                     return [
-                        'City' => $station->city,
-                        'Count' => $station->count,
+                        __('City') => $station->city,
+                        __('Count') => $station->count,
                     ];
                 });
+                $fileName = "Станції_по_місту.xlsx";
                 break;
             case 'stations_by_region':
                 $stations = Station::select('region', DB::raw('count(*) as count'))
@@ -126,10 +127,11 @@ class StationController extends Controller
                     ->get();
                 $reportData = $stations->map(function ($station) {
                     return [
-                        'Region' => $station->region,
-                        'Count' => $station->count,
+                        __('Region') => $station->region,
+                        __('Count') => $station->count,
                     ];
                 });
+                $fileName = "Станції_по_регіону.xlsx";
                 break;
             case 'stations_by_type':
                 $stations = Station::select('type', DB::raw('count(*) as count'))
@@ -137,16 +139,20 @@ class StationController extends Controller
                     ->get();
                 $reportData = $stations->map(function ($station) {
                     return [
-                        'Type' => $station->type,
-                        'Count' => $station->count,
+                        __('Type') => $station->type,
+                        __('Count') => $station->count,
                     ];
                 });
+                $fileName = "Станції_по_типу.xlsx";
                 break;
             default:
-                return redirect()->back()->withErrors(['Invalid report type']);
+                return redirect()->back()->withErrors([__('Invalid report type')]);
         }
 
-        $fileName = "stations_{$reportType}.xlsx";
+        // Додавання рядка зі сумою станцій
+        $totalStations = $stations->sum('count');
+        $totalRow = [__('Total Stations'), $totalStations];
+        $reportData->push($totalRow);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
