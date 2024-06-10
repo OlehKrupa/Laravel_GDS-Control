@@ -65,10 +65,14 @@
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ implode(', ', $user->roles->pluck('name')->toArray()) }}</td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
-                                        <a href="{{ route('admin.users.restore', $user->id) }}"
-                                           class="px-3 py-1 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
-                                            {{ __('Restore') }}
-                                        </a>
+                                        <form action="{{ route('admin.users.restore', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit"
+                                                    class="px-3 py-1 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
+                                                {{ __('Restore') }}
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

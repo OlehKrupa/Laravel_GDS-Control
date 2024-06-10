@@ -9,12 +9,20 @@ use App\Models\Station;
 use App\Models\Spendings;
 use App\Models\SelfSpendings;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $stations = Station::all();
+        $user = Auth::user();
+
+        if ($user->can('use stations') && !$user->hasRole('OPERATOR')) {
+            $stations = Station::all();
+        } else {
+            $stations = Station::where('id', $user->station_id)->get();
+        }
+
         $models = [
             'Journal' => 'journal',
             'Spendings' => 'spendings',
@@ -23,6 +31,7 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('stations', 'models'));
     }
+
 
     public function getFields(Request $request)
     {
@@ -81,7 +90,14 @@ class DashboardController extends Controller
 
     public function getChartData(Request $request)
     {
-        $station_id = $request->input('station_id');
+        $user = Auth::user();
+
+        if ($user->cannot('use stations') || $user->hasRole('OPERATOR')) {
+            $station_id = $user->station_id;
+        } else {
+            $station_id = $request->input('station_id');
+        }
+
         $days = $request->input('days');
         $model = $request->input('model');
         $field = $request->input('field');
@@ -118,7 +134,14 @@ class DashboardController extends Controller
 
     public function getForecastData(Request $request)
     {
-        $station_id = $request->input('station_id');
+        $user = Auth::user();
+
+        if ($user->cannot('use stations') || $user->hasRole('OPERATOR')) {
+            $station_id = $user->station_id;
+        } else {
+            $station_id = $request->input('station_id');
+        }
+
         $days = $request->input('days');
         $model = $request->input('model');
         $field = $request->input('field');
@@ -132,6 +155,7 @@ class DashboardController extends Controller
             'forecastData' => $forecastData,
         ]);
     }
+
 
     private function getForecast($data, $depth)
     {

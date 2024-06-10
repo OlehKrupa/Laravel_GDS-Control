@@ -86,7 +86,8 @@
                                                class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                                 {{ __('Edit') }}
                                             </a>
-                                            <form action="{{ route('spendings.destroy', $spending->id) }}" method="POST" onsubmit="return confirmDelete();"
+                                            <form action="{{ route('spendings.destroy', $spending->id) }}" method="POST"
+                                                  onsubmit="return confirmDelete();"
                                                   style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
@@ -112,6 +113,20 @@
                             {{ __('Add Spending') }}
                         </a>
                     </div>
+
+                    @can('create reports')
+                        <form id="report-form" action="{{ route('spendings.generateReport') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="days" value="{{ request('days', 1) }}">
+                            <input type="hidden" name="user_station_id" value="{{ request('user_station_id') }}">
+                            <div class="flex items-center mb-4">
+                                <button type="submit"
+                                        class="px-4 py-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">
+                                    {{ __('Generate report') }}
+                                </button>
+                            </div>
+                        </form>
+                    @endcan
 
                 </div>
             </div>

@@ -7,6 +7,8 @@ use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AuditLog;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SelfSpendingsController extends Controller
 {
@@ -125,5 +127,49 @@ class SelfSpendingsController extends Controller
 
         return redirect()->route('selfSpendings.index')
             ->with('success', 'Self Spending deleted successfully.');
+    }
+
+    public function generateReport(Request $request)
+    {
+        $days = $request->input('days', 1);
+        $userStationId = $request->input('user_station_id');
+
+        $query = SelfSpendings::orderBy('created_at', 'desc');
+
+        if ($userStationId) {
+            $query->where('user_station_id', $userStationId);
+        }
+
+        $selfSpendings = $query->where('created_at', '>=', now()->subDays($days))->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle(__('Self Spendings Report'));
+
+        $header = [__('Date'), __('Heater Time'), __('Boiler Time'), __('Heater Gas'), __('Boiler Gas')];
+        $sheet->fromArray($header, null, 'A1');
+
+        $row = 2;
+        foreach ($selfSpendings as $data) {
+            $sheet->setCellValue('A' . $row, $data->created_at);
+            $sheet->setCellValue('B' . $row, $data->heater_time);
+            $sheet->setCellValue('C' . $row, $data->boiler_time);
+            $sheet->setCellValue('D' . $row, $data->heater_gas);
+            $sheet->setCellValue('E' . $row, $data->boiler_gas);
+            $row++;
+        }
+
+        $reportTitle = __('Self Spendings Report');
+        $reportDate = now()->format('Y-m-d');
+        $reportDays = __('for the last :days days', ['days' => $days]);
+        $reportStation = $userStationId ? __('for station :station', ['station' => Station::find($userStationId)->label]) : __('for all stations');
+
+        $fileName = "{$reportTitle}_{$reportDate}_{$reportDays}_{$reportStation}.xlsx";
+
+        $writer = new Xlsx($spreadsheet);
+        $tempFile = tempnam(sys_get_temp_dir(), 'self_spending_report');
+        $writer->save($tempFile);
+
+        return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
     }
 }

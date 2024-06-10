@@ -8,6 +8,9 @@ use App\Models\Spendings;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SpendingsController extends Controller
 {
@@ -116,4 +119,60 @@ class SpendingsController extends Controller
     {
         return view('spendings.edit', compact('spending'));
     }
+
+    public function generateReport(Request $request)
+    {
+        $days = $request->input('days', 1);
+        $stationId = $request->input('user_station_id');
+
+        $query = Spendings::where('created_at', '>=', now()->subDays($days));
+
+        if ($stationId) {
+            $query->where('user_station_id', $stationId);
+        }
+
+        $groupedData = $query->select(
+            'user_station_id',
+            DB::raw('AVG(gas) as avg_gas'),
+            DB::raw('AVG(odorant) as avg_odorant'),
+            DB::raw('SUM(gas) as total_gas'),
+            DB::raw('SUM(odorant) as total_odorant')
+        )
+            ->groupBy('user_station_id')
+            ->get();
+
+        $stations = Station::pluck('label', 'id');
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle(__('Report'));
+
+        $header = [__('Station'), __('Average Gas'), __('Average Odorant'), __('Total Gas'), __('Total Odorant')];
+        $sheet->fromArray($header, null, 'A1');
+
+        $row = 2;
+        foreach ($groupedData as $data) {
+            $stationLabel = $stations[$data->user_station_id] ?? $data->user_station_id;
+            $sheet->setCellValue('A' . $row, $stationLabel);
+            $sheet->setCellValue('B' . $row, $data->avg_gas);
+            $sheet->setCellValue('C' . $row, $data->avg_odorant);
+            $sheet->setCellValue('D' . $row, $data->total_gas);
+            $sheet->setCellValue('E' . $row, $data->total_odorant);
+            $row++;
+        }
+
+        $reportTitle = __('Expense Report');
+        $reportDate = now()->format('Y-m-d');
+        $reportDays = __('for the last :days days', ['days' => $days]);
+        $reportStation = $stationId ? __('for station :station', ['station' => $stations[$stationId] ?? $stationId]) : __('for all stations');
+
+        $fileName = "{$reportTitle}_{$reportDate}_{$reportDays}_{$reportStation}.xlsx";
+
+        $writer = new Xlsx($spreadsheet);
+        $tempFile = tempnam(sys_get_temp_dir(), 'report');
+        $writer->save($tempFile);
+
+        return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
+    }
+
 }

@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{gassiness}/edit', [GassinessController::class, 'edit'])->name('edit');
         Route::put('{gassiness}', [GassinessController::class, 'update'])->name('update');
         Route::delete('{gassiness}', [GassinessController::class, 'destroy'])->name('destroy');
+        Route::post('/generate-report', [GassinessController::class, 'generateReport'])->name('generateReport');
     });
 
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
@@ -76,8 +77,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
     Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+    Route::post('/notes/report', [NoteController::class, 'generateReport'])->name('notes.generateReport');
 
     Route::resource('spendings', SpendingsController::class);
+    Route::post('spendings/report', [SpendingsController::class, 'generateReport'])->name('spendings.generateReport');
 
     Route::prefix('selfSpendings')->name('selfSpendings.')->group(function () {
         Route::get('/', [SelfSpendingsController::class, 'index'])->name('index');
@@ -86,10 +89,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{selfSpending}', [SelfSpendingsController::class, 'edit'])->name('edit');
         Route::put('{selfSpending}', [SelfSpendingsController::class, 'update'])->name('update');
         Route::delete('{selfSpending}', [SelfSpendingsController::class, 'destroy'])->name('destroy');
+        Route::post('/report', [SelfSpendingsController::class, 'generateReport'])->name('generateReport');
     });
 
     // Journal routes
     Route::resource('journals', JournalController::class);
+
+    Route::post('/journals/generate-report', [JournalController::class, 'generateReport'])->name('journals.generateReport');
 
 });
 
