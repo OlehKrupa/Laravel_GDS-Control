@@ -15,7 +15,8 @@
 
                         <div class="flex items-center mb-4">
                             <label for="days"
-                                   class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Кількість днів для відображення</label>
+                                   class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Кількість
+                                днів для відображення</label>
                             <select id="days" name="days"
                                     class="block w-36 py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
                                     onchange="document.getElementById('days-form').submit()">
@@ -104,20 +105,25 @@
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     @if ($diff_in_days <= 3)
                                         <div class="inline-flex">
-                                            <a href="{{ route('gassiness.edit', $gassiness->id) }}"
-                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                {{ __('Edit') }}
-                                            </a>
-                                            <form action="{{ route('gassiness.destroy', $gassiness->id) }}" method="POST"
-                                                  onsubmit="return confirmDelete();"
-                                                  style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                    {{ __('Delete') }}
-                                                </button>
-                                            </form>
+                                            @can('update records')
+                                                <a href="{{ route('gassiness.edit', $gassiness->id) }}"
+                                                   class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                    {{ __('Edit') }}
+                                                </a>
+                                            @endcan
+                                            @can('delete records')
+                                                <form action="{{ route('gassiness.destroy', $gassiness->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirmDelete();"
+                                                      style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     @endif
                                 </td>
@@ -130,12 +136,14 @@
                         {{ $gassinesses->appends(['sort' => request('sort'), 'direction' => request('direction'), 'days' => request('days'), 'user_station_id' => request('user_station_id')])->links() }}
                     </div>
 
-                    <div class="mb-4">
-                        <a href="{{ route('gassiness.create') }}"
-                           class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            {{ __('Add Gassiness') }}
-                        </a>
-                    </div>
+                    @can('create records')
+                        <div class="mb-4">
+                            <a href="{{ route('gassiness.create') }}"
+                               class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
+                                {{ __('Add Gassiness') }}
+                            </a>
+                        </div>
+                    @endcan
 
                     @can('create reports')
                         <form action="{{ route('gassiness.generateReport') }}" method="POST">

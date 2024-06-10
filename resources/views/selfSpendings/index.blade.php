@@ -85,20 +85,24 @@
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
                                         @if ($selfSpending->created_at->gt(now()->subDays(3)))
-                                            <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
-                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                {{ __('Edit') }}
-                                            </a>
-                                            <form action="{{ route('selfSpendings.destroy', $selfSpending->id) }}"
-                                                  method="POST" style="display: inline;"
-                                                  onsubmit="return confirmDelete();">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                    {{ __('Delete') }}
-                                                </button>
-                                            </form>
+                                            @can('update records')
+                                                <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
+                                                   class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                    {{ __('Edit') }}
+                                                </a>
+                                            @endcan
+                                            @can('delete records')
+                                                <form action="{{ route('selfSpendings.destroy', $selfSpending->id) }}"
+                                                      method="POST" style="display: inline;"
+                                                      onsubmit="return confirmDelete();">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         @endif
                                     </div>
                                 </td>
@@ -110,28 +114,32 @@
                         {{ $selfSpendings->appends(['sort' => request('sort'), 'direction' => request('direction'), 'days' => request('days'), 'user_station_id' => request('user_station_id')])->links() }}
                     </div>
 
-                    <div class="mb-4">
-                        <a href="{{ route('selfSpendings.create') }}"
-                           class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
-                            {{ __('Add Self Spending') }}
-                        </a>
-                    </div>
+                    @can('create records')
+                        <div class="mb-4">
+                            <a href="{{ route('selfSpendings.create') }}"
+                               class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">
+                                {{ __('Add Self Spending') }}
+                            </a>
+                        </div>
+                    @endcan
 
-                        @can('create reports')
-                            <form action="{{ route('selfSpendings.generateReport') }}" method="post">
-                                <div class="flex items-center mb-4">
-                                    @csrf
-                                    <label class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center"
-                                           for="report_type">{{__('select_report_type:')}}</label>
-                                    <select class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
-                                            id="report_type" name="report_type">
-                                        <option value="self_spendings">{{__('Self Spendings Report')}}</option>
-                                    </select>
-                                    <button type="submit"
-                                            class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{__('Generate report')}}</button>
-                                </div>
-                            </form>
-                        @endcan
+                    @can('create reports')
+                        <form action="{{ route('selfSpendings.generateReport') }}" method="post">
+                            <div class="flex items-center mb-4">
+                                @csrf
+                                <label
+                                    class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center"
+                                    for="report_type">{{__('select_report_type:')}}</label>
+                                <select
+                                    class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
+                                    id="report_type" name="report_type">
+                                    <option value="self_spendings">{{__('Self Spendings Report')}}</option>
+                                </select>
+                                <button type="submit"
+                                        class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{__('Generate report')}}</button>
+                            </div>
+                        </form>
+                    @endcan
 
                 </div>
             </div>

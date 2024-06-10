@@ -82,20 +82,25 @@
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
                                         @if ($spending->created_at->gt(now()->subDays(3)))
-                                            <a href="{{ route('spendings.edit', $spending->id) }}"
-                                               class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                {{ __('Edit') }}
-                                            </a>
-                                            <form action="{{ route('spendings.destroy', $spending->id) }}" method="POST"
-                                                  onsubmit="return confirmDelete();"
-                                                  style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                        class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                    {{ __('Delete') }}
-                                                </button>
-                                            </form>
+                                            @can('update records')
+                                                <a href="{{ route('spendings.edit', $spending->id) }}"
+                                                   class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                                    {{ __('Edit') }}
+                                                </a>
+                                            @endcan
+                                            @can('delete records')
+                                                <form action="{{ route('spendings.destroy', $spending->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirmDelete();"
+                                                      style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         @endif
                                     </div>
                                 </td>
@@ -107,12 +112,14 @@
                         {{ $spendings->appends(['sort' => request('sort'), 'direction' => request('direction'), 'days' => request('days'), 'user_station_id' => request('user_station_id')])->links() }}
                     </div>
 
-                    <div class="mb-4">
-                        <a href="{{ route('spendings.create') }}"
-                           class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
-                            {{ __('Add Spending') }}
-                        </a>
-                    </div>
+                    @can('create records')
+                        <div class="mb-4">
+                            <a href="{{ route('spendings.create') }}"
+                               class="px-4 py-2 text-sm font-medium leading-5 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
+                                {{ __('Add Spending') }}
+                            </a>
+                        </div>
+                    @endcan
 
                     @can('create reports')
                         <form id="report-form" action="{{ route('spendings.generateReport') }}" method="POST">
