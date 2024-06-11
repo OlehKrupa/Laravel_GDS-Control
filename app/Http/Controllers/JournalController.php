@@ -19,7 +19,8 @@ class JournalController extends Controller
         $direction = $request->get('direction', 'desc');
         $days = $request->input('days', 1);
         $user = Auth::user();
-        $query = Journal::where('created_at', '>=', now()->subDays($days));
+        $query = Journal::where('created_at', '>=', now()->subDays($days))
+            ->with(['station', 'user']); // Загрузить связанные модели
 
         if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
             $query->where('user_station_id', $user->station_id);
