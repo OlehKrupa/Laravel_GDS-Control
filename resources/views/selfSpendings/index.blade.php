@@ -76,6 +76,11 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($selfSpendings as $index => $selfSpending)
+                            @php
+                                $created_at = \Carbon\Carbon::parse($selfSpending->created_at);
+                                $current_date = \Carbon\Carbon::now();
+                                $diff_in_days = $created_at->diffInDays($current_date);
+                            @endphp
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->created_at }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->heater_time }}</td>
@@ -84,7 +89,7 @@
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->boiler_gas }}</td>
                                 <td class="px-2 py-2 whitespace-nowrap border border-gray-200 text-center">
                                     <div class="inline-flex">
-                                        @if ($selfSpending->created_at->gt(now()->subDays(3)))
+                                        @if ($diff_in_days <= 3)
                                             @can('update records')
                                                 <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
                                                    class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
