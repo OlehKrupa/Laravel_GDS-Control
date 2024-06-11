@@ -16,23 +16,26 @@ class SpendingsController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->get('sort', 'created_at'); // По умолчанию сортировка по 'created_at'
-        $direction = $request->get('direction', 'asc'); // По умолчанию 'asc'
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
         $days = $request->input('days', 1);
-        $userStationId = $request->input('user_station_id');
+        $user = Auth::user();
+        $query = Spendings::where('created_at', '>=', now()->subDays($days))
+            ->with(['station', 'user']); // Загрузить связанные модели
 
-        $query = Spendings::orderBy($sort, $direction);
-
-        if ($userStationId) {
-            $query->where('user_station_id', $userStationId);
+        if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
+            $query->where('user_station_id', $user->station_id);
+        } else {
+            $userStationId = $request->input('user_station_id');
+            if ($userStationId) {
+                $query->where('user_station_id', $userStationId);
+            }
         }
 
-        // Применяем фильтр по дате
-        $spendings = $query->where('created_at', '>=', now()->subDays($days))->paginate(10);
-
+        $spendings = $query->orderBy($sort, $direction)->paginate(8);
         $stations = Station::all();
 
-        return view('spendings.index', compact('spendings', 'sort', 'direction', 'stations'));
+        return view('spendings.index', compact('spendings', 'stations'));
     }
 
     public function create()

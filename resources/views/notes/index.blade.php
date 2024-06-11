@@ -67,6 +67,8 @@
                             @php
                                 $columns = [
                                     'created_at' => __('Date'),
+                                     'station_label' => __('Station'),
+                                    'user_name' => __('User'),
                                     'operational_switching' => __('Operational Switching'),
                                     'received_orders' => __('Received Orders'),
                                     'completed_works' => __('Completed Works'),
@@ -77,17 +79,21 @@
                             @foreach ($columns as $column => $label)
                                 <th scope="col"
                                     class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('notes.index', ['sort' => $column, 'direction' => request('sort') === $column && request('direction') === 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}"
-                                       class="flex items-center space-x-1">
-                                        <span>{{ $label }}</span>
-                                        @if (request('sort') === $column)
-                                            @if ($currentDirection == 'asc')
-                                                &#9650; <!-- Up arrow -->
-                                            @else
-                                                &#9660; <!-- Down arrow -->
+                                    @if ($column == 'station_label' || $column == 'user_name')
+                                        {{ $label }}
+                                    @else
+                                        <a href="{{ route('notes.index', ['sort' => $column, 'direction' => request('sort') === $column && request('direction') === 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}"
+                                           class="flex items-center space-x-1">
+                                            <span>{{ $label }}</span>
+                                            @if (request('sort') === $column)
+                                                @if ($currentDirection == 'asc')
+                                                    &#9650; <!-- Up arrow -->
+                                                @else
+                                                    &#9660; <!-- Down arrow -->
+                                                @endif
                                             @endif
-                                        @endif
-                                    </a>
+                                        </a>
+                                    @endif
                                 </th>
                             @endforeach
                             <th scope="col"
@@ -105,7 +111,9 @@
                                 $diff_in_days = $created_at->diffInDays($current_date);
                             @endphp
                             <tr class="{{ $loop->index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
-                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->created_at }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ \Carbon\Carbon::parse($note->created_at)->format('d.m.y H:i') }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->station->label ?? 'N/A' }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->user->name }} {{ $note->user->surname }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->operational_switching }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->received_orders }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $note->completed_works }}</td>
@@ -117,18 +125,17 @@
                                             @can('update records')
                                                 <a href="{{ route('notes.edit', $note->id) }}"
                                                    class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                    {{ __('Edit') }}
+                                                    ✎
                                                 </a>
                                             @endcan
                                             @can('delete records')
                                                 <form action="{{ route('notes.destroy', $note->id) }}" method="POST"
-                                                      onsubmit="return confirmDelete();"
-                                                      style="display: inline;">
+                                                      onsubmit="return confirmDelete();" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                        {{ __('Delete') }}
+                                                        &#128465;
                                                     </button>
                                                 </form>
                                             @endcan
@@ -181,8 +188,8 @@
         </div>
     </div>
     <script>
-        function submitFilterForm() {
-            document.getElementById('filter-form').submit();
+        function confirmDelete() {
+            return confirm("Ви впевнені, що хочете видалити цей запис?");
         }
     </script>
 </x-app-layout>

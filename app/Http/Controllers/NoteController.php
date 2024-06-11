@@ -14,11 +14,12 @@ class NoteController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->get('sort', 'created_at'); // Default sort by 'created_at'
-        $direction = $request->get('direction', 'asc'); // Default direction 'asc'
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
         $days = $request->input('days', 1);
         $user = Auth::user();
-        $query = Notes::where('created_at', '>=', now()->subDays($days));
+        $query = Notes::where('created_at', '>=', now()->subDays($days))
+            ->with(['station', 'user']); // Загрузить связанные модели
 
         if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
             $query->where('user_station_id', $user->station_id);
@@ -30,7 +31,7 @@ class NoteController extends Controller
         }
 
         $notes = $query->orderBy($sort, $direction)->paginate(8);
-        $stations = Station::all(); // Get all stations
+        $stations = Station::all();
 
         return view('notes.index', compact('notes', 'stations'));
     }

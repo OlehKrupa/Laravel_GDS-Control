@@ -28,12 +28,14 @@ class UserSeeder extends Seeder
         // Создаем пользователей с заданными ролями и станциями
         User::factory()->withRole('ADMIN')->create([
             'name' => 'Admin User',
+            'surname' => 'User',
             'email' => 'admin@example.com',
             'station_id' => $kremenchukStation->id,
         ])->assignRole($adminRole);
 
         User::factory()->withRole('ANALYST')->create([
             'name' => 'Analyst User',
+            'surname' => 'User',
             'email' => 'analyst@example.com',
             'station_id' => $kremenchukStation->id,
         ])->assignRole($analystRole);
@@ -41,6 +43,7 @@ class UserSeeder extends Seeder
         // Создаем первого оператора с другой станцией
         User::factory()->withRole('OPERATOR')->create([
             'name' => 'Operator User',
+            'surname' => 'User',
             'email' => 'operator@example.com',
             'station_id' => $otherStation->id,
         ])->assignRole($operatorRole);

@@ -9,6 +9,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @if (session('success'))
+                        <div class="mb-4 text-green-600">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="mb-4 text-red-600">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form id="days-form" action="{{ route('gassiness.index') }}" method="GET">
                         <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
                         <input type="hidden" name="direction" value="{{ request('direction', 'asc') }}">
@@ -53,6 +68,8 @@
                             @php
                                 $columns = [
                                     'created_at' => __('Created At'),
+                                    'station_label' => __('Station'),
+                                    'user_name' => __('User'),
                                     'MPR' => __('MPR'),
                                     'device' => __('Device'),
                                     'factory_number' => __('Factory Number'),
@@ -61,16 +78,20 @@
                             @foreach ($columns as $column => $label)
                                 <th scope="col"
                                     class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('gassiness.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}">
+                                    @if ($column == 'station_label' || $column == 'user_name')
                                         {{ $label }}
-                                        @if ($currentSort == $column)
-                                            @if ($currentDirection == 'asc')
-                                                &#9650; <!-- Up arrow -->
-                                            @else
-                                                &#9660; <!-- Down arrow -->
+                                    @else
+                                        <a href="{{ route('gassiness.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}">
+                                            {{ $label }}
+                                            @if ($currentSort == $column)
+                                                @if ($currentDirection == 'asc')
+                                                    &#9650; <!-- Up arrow -->
+                                                @else
+                                                    &#9660; <!-- Down arrow -->
+                                                @endif
                                             @endif
-                                        @endif
-                                    </a>
+                                        </a>
+                                    @endif
                                 </th>
                             @endforeach
                             <th scope="col"
@@ -90,7 +111,9 @@
                                 $diff_in_days = $created_at->diffInDays($current_date);
                             @endphp
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
-                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->created_at }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ \Carbon\Carbon::parse($gassiness->created_at)->format('d.m.y H:i') }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->station->label ?? 'N/A' }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->user->name }} {{ $gassiness->user->surname }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->MPR }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->device }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $gassiness->factory_number }}</td>
@@ -108,7 +131,7 @@
                                             @can('update records')
                                                 <a href="{{ route('gassiness.edit', $gassiness->id) }}"
                                                    class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                    {{ __('Edit') }}
+                                                    ✎
                                                 </a>
                                             @endcan
                                             @can('delete records')
@@ -120,7 +143,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                        {{ __('Delete') }}
+                                                        &#128465;
                                                     </button>
                                                 </form>
                                             @endcan
@@ -154,14 +177,14 @@
                                     class="px-4 py-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{ __('Generate report') }}</button>
                         </form>
                     @endcan
-
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function confirmDelete() {
-            return confirm('Ви впевнені у видаленні?');
-        }
-    </script>
 </x-app-layout>
+
+<script>
+    function confirmDelete() {
+        return confirm("Ви впевнені, що хочете видалити цей запис?");
+    }
+</script>

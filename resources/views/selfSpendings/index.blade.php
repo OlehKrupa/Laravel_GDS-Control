@@ -48,23 +48,27 @@
                         <thead>
                         <tr>
                             @php
-                                $columns = ['created_at' => __('Created At'), 'heater_time' => __('Heater Time'), 'boiler_time' => __('Boiler Time'), 'heater_gas' => __('Heater Gas'), 'boiler_gas' => __('Boiler Gas')];
+                                $columns = ['created_at' => __('Created At'), 'station_label' => __('Station'), 'user_name' => __('User'), 'heater_time' => __('Heater Time'), 'boiler_time' => __('Boiler Time'), 'heater_gas' => __('Heater Gas'), 'boiler_gas' => __('Boiler Gas')];
                                 $currentSort = request('sort', 'created_at');
                                 $currentDirection = request('direction', 'asc');
                             @endphp
                             @foreach ($columns as $column => $label)
                                 <th scope="col"
                                     class="px-3 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('selfSpendings.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}">
+                                    @if ($column == 'station_label' || $column == 'user_name')
                                         {{ $label }}
-                                        @if ($currentSort == $column)
-                                            @if ($currentDirection == 'asc')
-                                                &#9650; <!-- Up arrow -->
-                                            @else
-                                                &#9660; <!-- Down arrow -->
+                                    @else
+                                        <a href="{{ route('selfSpendings.index', ['sort' => $column, 'direction' => $currentSort == $column && $currentDirection == 'asc' ? 'desc' : 'asc', 'days' => request('days', 1), 'user_station_id' => request('user_station_id')]) }}">
+                                            {{ $label }}
+                                            @if ($currentSort == $column)
+                                                @if ($currentDirection == 'asc')
+                                                    &#9650; <!-- Up arrow -->
+                                                @else
+                                                    &#9660; <!-- Down arrow -->
+                                                @endif
                                             @endif
-                                        @endif
-                                    </a>
+                                        </a>
+                                    @endif
                                 </th>
                             @endforeach
                             <th scope="col"
@@ -82,7 +86,9 @@
                                 $diff_in_days = $created_at->diffInDays($current_date);
                             @endphp
                             <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
-                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->created_at }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ \Carbon\Carbon::parse($selfSpending->created_at)->format('d.m.y H:i') }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->station->label ?? 'N/A' }}</td>
+                                <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->user->name }} {{ $selfSpending->user->surname }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->heater_time }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->boiler_time }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap border border-gray-200">{{ $selfSpending->heater_gas }}</td>
@@ -93,7 +99,7 @@
                                             @can('update records')
                                                 <a href="{{ route('selfSpendings.edit', $selfSpending->id) }}"
                                                    class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                                    {{ __('Edit') }}
+                                                    ✎
                                                 </a>
                                             @endcan
                                             @can('delete records')
@@ -104,7 +110,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                        {{ __('Delete') }}
+                                                        &#128465;
                                                     </button>
                                                 </form>
                                             @endcan
