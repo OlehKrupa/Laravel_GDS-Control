@@ -17,6 +17,9 @@ class UserSeeder extends Seeder
         // Ensure there is a station of type ЛВУМГ in Кременчук
         $kremenchukStation = Station::factory()->lvumgKremenchuk()->create();
 
+        // Ensure there is another station of a different type
+        $otherStation = Station::factory()->create();
+
         // Получаем роли
         $adminRole = Role::where('name', 'ADMIN')->first();
         $operatorRole = Role::where('name', 'OPERATOR')->first();
@@ -35,11 +38,16 @@ class UserSeeder extends Seeder
             'station_id' => $kremenchukStation->id,
         ])->assignRole($analystRole);
 
+        // Создаем первого оператора с другой станцией
+        User::factory()->withRole('OPERATOR')->create([
+            'name' => 'Operator User',
+            'email' => 'operator@example.com',
+            'station_id' => $otherStation->id,
+        ])->assignRole($operatorRole);
+
+        // Создаем остальных операторов
         User::factory()->count(8)->withRole('OPERATOR')->create()->each(function ($user) use ($operatorRole) {
             $user->assignRole($operatorRole);
         });
-
-        // Создание остальных пользователей (если необходимо)
-        User::factory()->count(9)->create();
     }
 }

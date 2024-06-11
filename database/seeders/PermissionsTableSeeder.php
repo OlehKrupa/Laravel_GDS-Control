@@ -15,7 +15,7 @@ class PermissionsTableSeeder extends Seeder
     {
         // Создание разрешений
         Permission::create(['name' => 'edit user station']);
-        Permission::create(['name' => 'use station']);
+        Permission::create(['name' => 'use stations']);
         Permission::create(['name' => 'create reports']);
         Permission::create(['name' => 'edit roles']);
         Permission::create(['name' => 'crud stations']);

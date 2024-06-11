@@ -43,7 +43,7 @@ class RolePermissionSeeder extends Seeder
         // Назначение разрешений роли ANALYST
         $analyst->givePermissionTo([
             'forecast',
-            'use station',
+            'use stations',
             'create reports'
         ]);
 

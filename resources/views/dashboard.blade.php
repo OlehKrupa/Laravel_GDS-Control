@@ -147,6 +147,17 @@
                                             categories: Object.keys(data),
                                             title: {
                                                 text: 'Дата'
+                                            },
+                                            labels: {
+                                                formatter: function () {
+                                                    var date = new Date(this.value);
+                                                    var day = date.getDate().toString().padStart(2, '0');
+                                                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                                    var year = date.getFullYear().toString().slice(-2);
+                                                    var hour = date.getHours().toString().padStart(2, '0');
+                                                    var minutes = date.getMinutes().toString().padStart(2, '0');
+                                                    return `${day}.${month}.${year} ${hour}:${minutes}`;
+                                                }
                                             }
                                         },
                                         yAxis: {
@@ -211,6 +222,17 @@
                                             categories: Object.keys(data.actualData),
                                             title: {
                                                 text: 'Дата'
+                                            },
+                                            labels: {
+                                                formatter: function () {
+                                                    var date = new Date(this.value);
+                                                    var day = date.getDate().toString().padStart(2, '0');
+                                                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                                    var year = date.getFullYear().toString().slice(-2);
+                                                    var hour = date.getHours().toString().padStart(2, '0');
+                                                    var minutes = date.getMinutes().toString().padStart(2, '0');
+                                                    return `${day}.${month}.${year} ${hour}:${minutes}`;
+                                                }
                                             }
                                         },
                                         yAxis: {

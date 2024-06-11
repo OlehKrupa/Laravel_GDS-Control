@@ -14,7 +14,7 @@ class StationSeeder extends Seeder
     public function run(): void
     {
         // Создание станции ЛВУМГ в Кременчуге
-        Station::factory()->lvumgKremenchuk()->create();
+//        Station::factory()->lvumgKremenchuk()->create();
 
         // Создание остальных станций
         Station::factory()->count(5)->create();

@@ -28,9 +28,9 @@ class AdminController extends Controller
 
         // Use a more elegant way to handle model instances
         $models = [
-            'stations' => Station::class,
+            'station' => Station::class,
             'gassiness' => Gassiness::class,
-            'journals' => Journal::class,
+            'journal' => Journal::class,
             'notes' => Notes::class,
             'self_spendings' => SelfSpendings::class,
             'spendings' => Spendings::class,
