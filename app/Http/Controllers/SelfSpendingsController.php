@@ -7,6 +7,7 @@ use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AuditLog;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -135,37 +136,66 @@ class SelfSpendingsController extends Controller
     public function generateReport(Request $request)
     {
         $days = $request->input('days', 1);
-        $userStationId = $request->input('user_station_id');
+        $stationId = $request->input('user_station_id');
 
-        $query = SelfSpendings::orderBy('created_at', 'desc');
+        $query = SelfSpendings::where('created_at', '>=', now()->subDays($days));
 
-        if ($userStationId) {
-            $query->where('user_station_id', $userStationId);
+        if ($stationId) {
+            $query->where('user_station_id', $stationId);
         }
 
-        $selfSpendings = $query->where('created_at', '>=', now()->subDays($days))->get();
+        $groupedData = $query->select(
+            'user_station_id',
+            DB::raw('AVG(heater_time) as avg_heater_time'),
+            DB::raw('AVG(boiler_time) as avg_boiler_time'),
+            DB::raw('AVG(heater_gas) as avg_heater_gas'),
+            DB::raw('AVG(boiler_gas) as avg_boiler_gas'),
+            DB::raw('SUM(heater_time) as total_heater_time'),
+            DB::raw('SUM(boiler_time) as total_boiler_time'),
+            DB::raw('SUM(heater_gas) as total_heater_gas'),
+            DB::raw('SUM(boiler_gas) as total_boiler_gas')
+        )
+            ->groupBy('user_station_id')
+            ->get();
+
+        $stations = Station::pluck('label', 'id');
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle(__('Self Spendings Report'));
 
-        $header = [__('Date'), __('Heater Time'), __('Boiler Time'), __('Heater Gas'), __('Boiler Gas')];
+        $header = [
+            __('Station'),
+            __('AVG Heater Time'),
+            __('AVG Heater Gas'),
+            __('AVG Boiler Time'),
+            __('AVG Boiler Gas'),
+            __('Total Heater Time'),
+            __('Total Heater Gas'),
+            __('Total Boiler Time'),
+            __('Total Boiler Gas')
+        ];
         $sheet->fromArray($header, null, 'A1');
 
         $row = 2;
-        foreach ($selfSpendings as $data) {
-            $sheet->setCellValue('A' . $row, $data->created_at);
-            $sheet->setCellValue('B' . $row, $data->heater_time);
-            $sheet->setCellValue('C' . $row, $data->boiler_time);
-            $sheet->setCellValue('D' . $row, $data->heater_gas);
-            $sheet->setCellValue('E' . $row, $data->boiler_gas);
+        foreach ($groupedData as $data) {
+            $stationLabel = $stations[$data->user_station_id] ?? $data->user_station_id;
+            $sheet->setCellValue('A' . $row, $stationLabel);
+            $sheet->setCellValue('B' . $row, $data->avg_heater_time);
+            $sheet->setCellValue('C' . $row, $data->avg_heater_gas);
+            $sheet->setCellValue('D' . $row, $data->avg_boiler_time);
+            $sheet->setCellValue('E' . $row, $data->avg_boiler_gas);
+            $sheet->setCellValue('F' . $row, $data->total_heater_time);
+            $sheet->setCellValue('G' . $row, $data->total_heater_gas);
+            $sheet->setCellValue('H' . $row, $data->total_boiler_time);
+            $sheet->setCellValue('I' . $row, $data->total_boiler_gas);
             $row++;
         }
 
         $reportTitle = __('Self Spendings Report');
         $reportDate = now()->format('Y-m-d');
         $reportDays = __('for the last :days days', ['days' => $days]);
-        $reportStation = $userStationId ? __('for station :station', ['station' => Station::find($userStationId)->label]) : __('for all stations');
+        $reportStation = $stationId ? __('for station :station', ['station' => Station::find($stationId)->label]) : __('for all stations');
 
         $fileName = "{$reportTitle}_{$reportDate}_{$reportDays}_{$reportStation}.xlsx";
 

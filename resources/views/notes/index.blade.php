@@ -160,28 +160,28 @@
                         </div>
                     @endcan
 
-                    @can('create reports')
-                        <form action="{{ route('notes.generateReport') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="days" value="{{ request('days', 1) }}">
-                            <input type="hidden" name="user_station_id" value="{{ request('user_station_id') }}">
-                            <div class="flex items-center mb-4">
-                                <label for="parameter"
-                                       class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Звіт:</label>
-                                <select id="parameter" name="parameter"
-                                        class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
-                                    <option value="all">Всі параметри</option>
-                                    <option value="operational_switching">Оперативне перемикання</option>
-                                    <option value="received_orders">Отримані накази</option>
-                                    <option value="completed_works">Завершені роботи</option>
-                                    <option value="visits_by_outsiders">Візити сторонніх осіб</option>
-                                    <option value="inspection_of_pressure_tanks">Інспекція резервуарів тиску</option>
-                                </select>
-                                <button type="submit"
-                                        class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{ __('Generate report') }}</button>
-                            </div>
-                        </form>
-                    @endcan
+{{--                    @can('create reports')--}}
+{{--                        <form action="{{ route('notes.generateReport') }}" method="post">--}}
+{{--                            @csrf--}}
+{{--                            <input type="hidden" name="days" value="{{ request('days', 1) }}">--}}
+{{--                            <input type="hidden" name="user_station_id" value="{{ request('user_station_id') }}">--}}
+{{--                            <div class="flex items-center mb-4">--}}
+{{--                                <label for="parameter"--}}
+{{--                                       class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Звіт:</label>--}}
+{{--                                <select id="parameter" name="parameter"--}}
+{{--                                        class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">--}}
+{{--                                    <option value="all">Всі параметри</option>--}}
+{{--                                    <option value="operational_switching">Оперативне перемикання</option>--}}
+{{--                                    <option value="received_orders">Отримані накази</option>--}}
+{{--                                    <option value="completed_works">Завершені роботи</option>--}}
+{{--                                    <option value="visits_by_outsiders">Візити сторонніх осіб</option>--}}
+{{--                                    <option value="inspection_of_pressure_tanks">Інспекція резервуарів тиску</option>--}}
+{{--                                </select>--}}
+{{--                                <button type="submit"--}}
+{{--                                        class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{ __('Generate report') }}</button>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    @endcan--}}
 
                 </div>
             </div>

@@ -130,15 +130,12 @@ class GassinessController extends Controller
         $foundIssue = false;
 
         foreach ($gassinesses as $gassiness) {
+            $header = [__('Station'), __('Created At'), __('MPR'), __('Measurements')];
+            $sheet->fromArray($header, null, 'A1');
+
             $hasProblem = false;
             foreach ($gassiness->measurements as $measurement) {
                 if ($measurement >= $gassiness->MPR) {
-                    if (!$foundIssue) {
-                        // Add headers only if there's at least one issue
-                        $header = [__('Station'), __('Created At'), __('MPR'), __('Measurements')];
-                        $sheet->fromArray($header, null, 'A1');
-                    }
-
                     $stationLabel = $stations[$gassiness->user_station_id] ?? $gassiness->user_station_id;
                     $sheet->setCellValue('A' . $row, $stationLabel);
                     $sheet->setCellValue('B' . $row, $gassiness->created_at);
@@ -156,19 +153,13 @@ class GassinessController extends Controller
             if (!$hasProblem) {
                 $stationLabel = $stations[$gassiness->user_station_id] ?? $gassiness->user_station_id;
                 $sheet->setCellValue('A' . $row, $stationLabel);
-                $sheet->setCellValue('B' . $row, '');
-                $sheet->setCellValue('C' . $row, '');
-                $sheet->setCellValue('D' . $row, __('No problems with gassiness at ') . $stationLabel . ' ' . $reportPeriod);
+                $sheet->setCellValue('B' . $row, $gassiness->created_at);
+                $sheet->setCellValue('C' . $row, $gassiness->MPR);
+                $sheet->setCellValue('D' . $row, __('No problems with gassiness at ') . $stationLabel);
+//                $sheet->setCellValue('D' . $row, __('No problems with gassiness at ') . $stationLabel . ' ' . $reportPeriod);
 
                 $row++;
             }
-        }
-
-        if (!$foundIssue) {
-            $message = $userStationId
-                ? __('No problems with gassiness at ') . ($stations[$userStationId] ?? $userStationId) . ' ' . $reportPeriod
-                : __('All stations are fine with gassiness ') . $reportPeriod;
-            $sheet->setCellValue('A1', $message);
         }
 
         $fileName = 'Звіт_загазованність_' . now()->format('Y_m_d') . '_за_останні_' . $days . '_днів.xlsx';
