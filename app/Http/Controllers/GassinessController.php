@@ -14,10 +14,11 @@ class GassinessController extends Controller
     public function index(Request $request)
     {
         $sort = $request->get('sort', 'created_at');
-        $direction = $request->get('direction', 'asc');
+        $direction = $request->get('direction', 'desc');
         $days = $request->input('days', 1);
         $user = Auth::user();
-        $query = Gassiness::where('created_at', '>=', now()->subDays($days));
+        $query = Gassiness::where('created_at', '>=', now()->subDays($days))
+            ->with(['station', 'user']); // Загрузить связанные модели
 
         if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
             $query->where('user_station_id', $user->station_id);

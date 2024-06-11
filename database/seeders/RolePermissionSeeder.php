@@ -26,7 +26,6 @@ class RolePermissionSeeder extends Seeder
             'create reports',
             'edit roles',
             'crud stations',
-            'create records',
             'update records',
             'delete records',
             'settings',

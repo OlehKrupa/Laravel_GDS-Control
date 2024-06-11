@@ -50,7 +50,7 @@
                                     <div class="inline-flex">
                                         <a href="{{ route('stations.edit', $station->id) }}"
                                            class="px-3 py-1 text-sm font-medium leading-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                            {{ __('Edit') }}
+                                            ✎
                                         </a>
                                         <form action="{{ route('stations.destroy', $station->id) }}" method="POST" onsubmit="return confirmDelete();"
                                               style="display: inline;">
@@ -58,7 +58,7 @@
                                             @method('DELETE')
                                             <button type="submit"
                                                     class="px-3 py-1 ml-2 text-sm font-medium leading-5 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                                {{ __('Delete') }}
+                                                &#128465;
                                             </button>
                                         </form>
                                     </div>

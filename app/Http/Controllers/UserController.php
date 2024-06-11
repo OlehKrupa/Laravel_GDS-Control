@@ -32,7 +32,7 @@ class UserController extends Controller
             $query->orderBy($sort, $direction);
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(8);
         $stations = Station::all();
 
         return view('admin.users.index', compact('users', 'stations'));
@@ -164,7 +164,7 @@ class UserController extends Controller
             $query->orderBy($sort, $direction);
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(8);
 
         return view('admin.users.trashed', compact('users'));
     }
