@@ -22,7 +22,7 @@ class RolePermissionSeeder extends Seeder
         // Получение разрешений
         $permissions = [
             'edit user station',
-            'use station',
+            'use stations',
             'create reports',
             'edit roles',
             'crud stations',

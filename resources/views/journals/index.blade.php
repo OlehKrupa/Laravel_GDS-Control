@@ -172,16 +172,16 @@
                                        class="w-max text-base font-semibold text-gray-800 bg-gray-200 py-2 px-3 rounded-l-md border border-gray-300 flex items-center">Звіт:</label>
                                 <select id="parameter" name="parameter"
                                         class="block w-max py-2 px-4 border border-gray-300 bg-white rounded-r-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base">
-                                    <option value="all">Всі параметри</option>
-                                    <option value="pressure_in">Тиск вхідний</option>
-                                    <option value="pressure_out_1">Тиск вихідний 1</option>
-                                    <option value="pressure_out_2">Тиск вихідний 2</option>
-                                    <option value="temperature_1">Температура 1</option>
-                                    <option value="temperature_2">Температура 2</option>
-                                    <option value="odorant_value_1">Одоризація 1</option>
-                                    <option value="odorant_value_2">Одоризація 2</option>
-                                    <option value="gas_heater_temperature_in">Температура нагрівача газу вхід</option>
-                                    <option value="gas_heater_temperature_out">Температура нагрівача газу вихід</option>
+                                    <option value="all">Середнє по всім параметрам</option>
+                                    <option value="pressure_in">Середній вхідний тиск</option>
+                                    <option value="pressure_out_1">Середній вихідний тиск 1</option>
+                                    <option value="pressure_out_2">Середній вихідний тиск 2</option>
+                                    <option value="temperature_1">Середня Температура 1</option>
+                                    <option value="temperature_2">Середня Температура 2</option>
+                                    <option value="odorant_value_1">Середній одоризація 1</option>
+                                    <option value="odorant_value_2">Середній одоризація 2</option>
+                                    <option value="gas_heater_temperature_in">Середня температура ПГ вхід</option>
+                                    <option value="gas_heater_temperature_out">Середня температура ПГ вихід</option>
                                 </select>
                                 <button type="submit"
                                         class="px-4 py-2 ml-2 text-lg leading-6 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:bg-amber-600">{{ __('Generate report') }}</button>

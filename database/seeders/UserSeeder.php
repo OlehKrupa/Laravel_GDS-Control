@@ -40,6 +40,6 @@ class UserSeeder extends Seeder
         });
 
         // Создание остальных пользователей (если необходимо)
-        User::factory()->count(12)->create();
+        User::factory()->count(9)->create();
     }
 }

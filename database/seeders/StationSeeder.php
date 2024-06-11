@@ -17,6 +17,6 @@ class StationSeeder extends Seeder
         Station::factory()->lvumgKremenchuk()->create();
 
         // Создание остальных станций
-        Station::factory()->count(12)->create();
+        Station::factory()->count(5)->create();
     }
 }

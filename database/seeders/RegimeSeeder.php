@@ -18,9 +18,17 @@ class RegimeSeeder extends Seeder
     public function run(): void
     {
         // Группировка пользователей по станциям
-        $stations = User::all()->groupBy('station_id');
+        $stations = User::with('station')->get()->groupBy('station_id');
 
         foreach ($stations as $stationId => $users) {
+            // Получение информации о станции
+            $station = $users->first()->station;
+
+            // Проверка типа станции
+            if ($station->type == 'ЛВУМГ') {
+                continue; // Пропуск станций с типом ЛВУМГ
+            }
+
             // Создание записей для каждой станции за последние 30 дней
             $numUsers = count($users);
             $currentDate = Carbon::now();
@@ -72,7 +80,7 @@ class RegimeSeeder extends Seeder
                 // Создание записи в Gassiness
                 Gassiness::create([
                     'MPR' => 1,
-                    'measurements' => json_encode(array_fill(0, 10, 0)),
+                    'measurements' => array_fill(0, 10, 0),
                     'device' => 'Device ' . rand(1, 100),
                     'factory_number' => rand(1000, 9999),
                     'user_id' => $user->id,
