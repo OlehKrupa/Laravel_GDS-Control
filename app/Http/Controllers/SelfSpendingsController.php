@@ -22,7 +22,7 @@ class SelfSpendingsController extends Controller
             ->with(['station', 'user']); // Загрузить связанные модели
 
         if ($user->hasRole('OPERATOR') && $user->roles->count() === 1) {
-            $query->where('user_station_id', $user->station_id);
+            $query->where('user_id', $user->id)->where('user_station_id', $user->station_id);
         } else {
             $userStationId = $request->input('user_station_id');
             if ($userStationId) {
