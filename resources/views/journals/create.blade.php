@@ -35,7 +35,7 @@
                                 <input type="number" step="0.01" name="pressure_in" id="pressure_in"
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ old('pressure_in') }}"/>
-                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 
@@ -47,7 +47,7 @@
                                 <input type="number" step="0.01" name="pressure_out_1" id="pressure_out_1"
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ old('pressure_out_1') }}"/>
-                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                                 <input type="number" step="0.01" name="pressure_out_2" id="pressure_out_2"
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ old('pressure_out_2') }}"/>
-                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                <span class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 

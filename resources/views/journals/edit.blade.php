@@ -36,7 +36,7 @@
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ $journal->pressure_in }}"/>
                                 <span
-                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 
@@ -48,7 +48,7 @@
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ $journal->pressure_out_1 }}"/>
                                 <span
-                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
                                        class="w-full py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        value="{{ $journal->pressure_out_2 }}"/>
                                 <span
-                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Pa</span>
+                                    class="inline-flex items-center px-3 text-gray-700 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md">Kg/cm²</span>
                             </div>
                         </div>
 
