@@ -179,3 +179,4 @@ fabric.properties
 /public/build/
 .idea/codeStyles/codeStyleConfig.xml
 .idea/inspectionProfiles/Project_Default.xml
+.idea/gds-control.iml
